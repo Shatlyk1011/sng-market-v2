@@ -4,35 +4,41 @@
       <div class="img-container"></div>
       <div class="content">
         <div class="title">
-          Lorem, ipsum dolor sit amet consectetur adipisicing.
+          Добро пожаловать на лучший онлайн рынок в <span>СНГ</span>
         </div>
         <div class="subtitle">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. At error
-          sequi alias rerum officia laboriosam!
+          Лучший онлайн рынок для оптовых закупок в
+          <span style="color: #fff; letter-spacing: 1px">СНГ</span> напрямую от
+          поставщиков!
         </div>
 
-        <div class="search">
-          <div class="input">
-            <img src="../../assets/icons/search.svg" alt="" />
-            <input type="text" placeholder="Яблоко, бананы, виноград..." />
-          </div>
-          <button class="btn btn-search">Поиск фркутов...</button>
-        </div>
+        <Search
+          placeholder="Яблоки, бананы, виноград..."
+          btnText="Поиск фруктов"
+        />
 
         <div class="stats">
           <div class="stat">
-            <div class="num">2,442</div>
-            <div class="text">lorem2</div>
+            <div class="num">10+</div>
+            <div class="text">тонн продаж фруктов и овощей в день!</div>
           </div>
           <div class="stat">
-            <div class="num">2,442</div>
-            <div class="text">lorem2</div>
+            <div class="num">150+</div>
+            <div class="text">поставщиков из всех стран СНГ!</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import Search from "../shared/Search.vue";
+export default {
+  name: "Hero",
+  components: { Search },
+};
+</script>
 
 
 <style lang="scss" scoped>
@@ -109,58 +115,22 @@ $SSP: "Source Sans Pro", sans-serif;
         font-weight: 700;
         letter-spacing: -0.1rem;
         font-size: 4.8rem;
-        line-height: 1.2;
+        line-height: 1.1;
         color: $white;
+
+        span {
+          letter-spacing: 3px;
+          color: $white;
+          color: $main-light-1;
+        }
       }
       .subtitle {
         color: rgba($white, 0.8);
         font-weight: 400;
         font-family: $roboto;
-        margin-top: 2.4rem;
+        margin: 2.4rem 0 4.8rem 0;
       }
 
-      .search {
-        display: flex;
-        flex-direction: column;
-        margin-top: 4.8rem;
-
-        .input {
-          background-color: $white;
-          display: flex;
-          padding: 1.2rem 1.8rem;
-          gap: 1rem;
-          border-top-right-radius: 2px;
-          border-top-left-radius: 2px;
-
-          img {
-          }
-
-          input {
-            border: none;
-            outline: none;
-            width: 100%;
-
-            &::placeholder {
-              font-family: $roboto;
-              letter-spacing: 1px;
-            }
-          }
-        }
-        .btn-search {
-          text-transform: uppercase;
-          padding: 1.2rem 1.8rem;
-          border: none;
-          outline: none;
-          color: $white;
-          font-size: 1.28rem;
-          background-color: $main-dark-1;
-          transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
-
-          &:hover {
-            background-color: $main-dark-2;
-          }
-        }
-      }
       .stats {
         display: flex;
         justify-content: center;
@@ -172,8 +142,9 @@ $SSP: "Source Sans Pro", sans-serif;
           display: flex;
           flex-direction: column;
           gap: 0;
+          max-width: 20rem;
           .num {
-            color: $white;
+            color: $main-light-1;
             font-weight: 600;
             font-size: 3.125rem;
             line-height: 1.2;

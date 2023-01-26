@@ -1,36 +1,62 @@
 <template>
   <div class="signup">
     <h2 class="form__heading">Регистрация</h2>
-    <form class="form">
-      <div class="group">
-        <input type="text" class="input" required />
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>Ваше имя</label>
+    <form @submit.prevent="handleRegister" class="form">
+      <div class="input-container">
+        <input
+          class="input"
+          v-model="userName"
+          id="username"
+          placeholder="Ваше имя"
+          type="text"
+          required
+        />
+        <label class="label" for="username">Ваше имя</label>
       </div>
 
-      <div class="group">
-        <input type="email" class="input" required />
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>Email адрес</label>
+      <div class="input-container">
+        <input
+          class="input"
+          v-model="email"
+          id="email"
+          placeholder="Email"
+          type="email"
+          required
+        />
+        <label class="label" for="email">Email</label>
       </div>
 
-      <div class="group">
-        <input type="password" class="input" required />
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>Придумайте пароль</label>
-        <div class="show-password">
-          <img src="../../assets/icons/eye.svg" alt="" />
-        </div>
-        <!--         <div class="hide-password">
-          <img src="../../assets/icons/eye-off.svg" alt="" />
-        </div> -->
+      <div class="input-container relative">
+        <input
+          class="input"
+          v-model="password"
+          id="password"
+          placeholder="Пароль"
+          type="password"
+          ref="passwordRef"
+          required
+        />
+        <label class="label" for="email">Пароль</label>
+        <img
+          v-if="!passwordRefBoolean"
+          @click="togglePasswordVisibility"
+          class="hide"
+          src="../../assets/icons/eye.svg"
+          alt=""
+        />
+        <img
+          v-if="passwordRefBoolean"
+          @click="togglePasswordVisibility"
+          class="hide"
+          src="../../assets/icons/eye-off.svg"
+          alt=""
+        />
       </div>
+      <div class="error" v-if="error">{{ error }}</div>
+
       <div class="check">
-        <input type="checkbox" id="checkbox" />
-        <label for="checkbox">Я принимаю все условия</label>
+        <input type="checkbox" id="checkbox" required />
+        <label for="checkbox">Я принимаю все </label><span>условиe</span>
       </div>
       <button class="btn form__btn">Зарегистрироватсья</button>
     </form>
@@ -42,7 +68,54 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import useSignup from "@/composables/useSignup";
+export default {
+  name: "Signup",
+
+  setup() {
+    const router = useRouter();
+    const userName = ref("");
+    const email = ref("");
+    const password = ref("");
+
+    //показать и скрыть пароль
+    const passwordRefBoolean = ref(true);
+    const passwordRef = ref(null);
+
+    const togglePasswordVisibility = () => {
+      passwordRefBoolean.value = !passwordRefBoolean.value;
+      if (passwordRefBoolean.value === true) {
+        passwordRef.value.setAttribute("type", "text");
+      } else {
+        passwordRef.value.setAttribute("type", "password");
+      }
+    };
+
+    const { error, signup, isPending } = useSignup();
+
+    const handleRegister = async () => {
+      await signup(email.value, password.value, userName.value);
+      console.log(error);
+      if (!error.value) {
+        router.push({ name: "HomeView" });
+      }
+    };
+
+    return {
+      userName,
+      email,
+      password,
+      handleRegister,
+      isPending,
+      error,
+      passwordRefBoolean,
+      passwordRef,
+      togglePasswordVisibility,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -77,11 +150,11 @@ $SSP: "Source Sans Pro", sans-serif;
  */
 
 .signup {
-  max-width: 45rem;
+  max-width: 55rem;
   margin: 0 auto;
-  margin-top: 3.2rem;
+  padding: 6.4rem 3.2rem;
   .form {
-    padding: 2.8rem 4rem;
+    padding: 4.8rem;
     border: 1px solid rgba($main-light-1, 0.4);
     box-shadow: 0px 3px 11px rgba(0, 0, 0, 0.06),
       0px 10px 15px rgba(0, 0, 0, 0.03);
@@ -113,89 +186,70 @@ $SSP: "Source Sans Pro", sans-serif;
         background-color: $main-light-2;
       }
     }
-    .group {
+
+    .input-container.relative {
       position: relative;
+    }
+    .input-container {
+      display: flex;
+      flex-direction: column;
 
       .input {
-        font-family: $roboto;
-        padding: 1.2rem 1rem;
-        font-size: 16px;
-        display: block;
-        width: 400px;
+        font-size: 1.6rem;
+        color: inherit;
+        padding: 1.5rem 2rem;
+        // background-color: #fff;
         border: none;
-        border-top-left-radius: 0.5rem;
-        border-top-right-radius: 0.5rem;
-        border: 1px solid rgba($main-light-1, 0.6);
-        background: transparent;
-        width: 100%;
-        // border-radius: 0.5rem;
+        outline: none;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s;
 
         &:focus {
-          outline: none;
+          box-shadow: 0 1rem 2rem rgba($text, 0.1);
         }
 
-        &:focus ~ label,
-        &:valid ~ label {
-          top: -2rem;
-          font-size: 1.28rem;
-          color: $main-dark-1;
+        &:focus:invalid {
+          border-bottom: 3px solid orangered;
         }
 
-        &:focus ~ .bar:before,
-        &:focus ~ .bar:after {
-          width: 50%;
+        &:valid {
+          border-bottom: 3px solid green;
+        }
+        &:placeholder-shown + .label {
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-2rem);
+        }
+        &::placeholder {
+          font-family: $SSP;
+          letter-spacing: 1px;
         }
       }
 
-      label {
-        color: rgba($main-dark-1, 0.5);
-        // font-size: 18px;
-        font-weight: 500;
+      .hide {
         position: absolute;
-        pointer-events: none;
-        left: 1rem;
-        top: 1rem;
-        transition: 0.2s ease all;
-        -moz-transition: 0.2s ease all;
-        -webkit-transition: 0.2s ease all;
+        height: 18px;
+        width: 18px;
+        top: 30%;
+        transform: translateY(-30%);
+        right: 1rem;
       }
 
-      .highlight {
-        position: absolute;
-        height: 60%;
-        width: 100px;
-        top: 25%;
-        left: 0;
-        pointer-events: none;
-        opacity: 0.5;
-      }
-
-      .bar {
-        position: relative;
+      .label {
+        font-size: 1.28rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: 0.7rem;
         display: block;
-        width: 100%;
-
-        &::before,
-        &::after {
-          content: "";
-          height: 2px;
-          width: 0;
-          bottom: 1px;
-          position: absolute;
-          background: $main-light-2;
-          border-radius: 1rem;
-          transition: 0.2s ease all;
-          -moz-transition: 0.2s ease all;
-          -webkit-transition: 0.2s ease all;
-        }
-
-        &::before {
-          left: 50%;
-        }
-        &::after {
-          right: 50%;
-        }
+        transition: all 0.3s;
+        font-family: $SSP;
+        letter-spacing: 1px;
+        // transform: translateY(-8rem);
       }
+    }
+
+    .input[type="password"] {
+      letter-spacing: 6px;
     }
   }
   h4 {
@@ -232,6 +286,24 @@ $SSP: "Source Sans Pro", sans-serif;
   gap: 1rem;
   align-items: center;
   line-height: 1;
+  user-select: none;
+
+  span {
+    color: $main-light-1;
+    border-bottom: 1px solid $main-light-1;
+    user-select: none;
+
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    cursor: pointer;
+
+    &:hover {
+      color: $main-light-2;
+      border-bottom: 1px solid $main-light-2;
+    }
+    &:active {
+      transform: translateY(2px) scale(0.95);
+    }
+  }
 
   #checkbox {
     &:checked {

@@ -46,6 +46,7 @@ $text: #181f29;
   position: relative;
   height: 2.8rem;
   padding-right: 3.3rem;
+  text-decoration: none;
 }
 
 .myBtn .icon {
@@ -72,7 +73,6 @@ $text: #181f29;
   transition: transform 0.3s;
   color: $main-dark;
 }
-
 .myBtn:hover .icon svg {
   transform: translateX(0.1rem);
 }

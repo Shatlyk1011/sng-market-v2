@@ -1,27 +1,50 @@
 <template>
   <div class="signup">
     <h2 class="form__heading">Войти</h2>
-    <form class="form">
-      <div class="group">
-        <input type="email" class="input" required />
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>Email</label>
+    <form class="form" @submit.prevent="handleLogin">
+      <div class="input-container">
+        <input
+          class="input"
+          v-model="email"
+          id="email"
+          placeholder="Email"
+          type="email"
+          required
+        />
+        <label class="label" for="email">Email</label>
       </div>
 
-      <div class="group">
-        <input type="password" class="input" required />
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>Пароль</label>
-        <div class="show-password">
-          <img src="../../assets/icons/eye.svg" alt="" />
-        </div>
-        <!--         <div class="hide-password">
-          <img src="../../assets/icons/eye-off.svg" alt="" />
-        </div> -->
+      <div class="input-container relative">
+        <input
+          class="input"
+          v-model="password"
+          id="password"
+          placeholder="Пароль"
+          type="password"
+          ref="passwordRef"
+          required
+        />
+        <label class="label" for="email">Пароль</label>
+        <img
+          v-if="!passwordRefBoolean"
+          @click="togglePasswordVisibility"
+          class="hide"
+          src="../../assets/icons/eye.svg"
+          alt=""
+        />
+        <img
+          v-if="passwordRefBoolean"
+          @click="togglePasswordVisibility"
+          class="hide"
+          src="../../assets/icons/eye-off.svg"
+          alt=""
+        />
       </div>
-      <button class="btn form__btn">Войти</button>
+
+      <div class="error" v-if="error">{{ error }}</div>
+
+      <button v-if="!isPending" class="btn form__btn">Войти</button>
+      <button v-if="isPending" class="btn form__btn" disabled>Войти</button>
     </form>
     <h4>
       Нету аккаунта?
@@ -33,7 +56,53 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import useSignin from "@/composables/useSignin";
+export default {
+  name: "Signin",
+  components: {},
+
+  setup() {
+    const router = useRouter();
+    const email = ref("");
+    const password = ref("");
+
+    //показать и скрыть пароль
+    const passwordRefBoolean = ref(true);
+    const passwordRef = ref(null);
+
+    const { error, login, isPending } = useSignin();
+
+    const togglePasswordVisibility = () => {
+      passwordRefBoolean.value = !passwordRefBoolean.value;
+      if (passwordRefBoolean.value === true) {
+        passwordRef.value.setAttribute("type", "text");
+      } else {
+        passwordRef.value.setAttribute("type", "password");
+      }
+    };
+
+    const handleLogin = async () => {
+      await login(email.value, password.value);
+      console.log(error.value);
+      if (!error.value) {
+        router.push("/");
+      }
+    };
+
+    return {
+      email,
+      password,
+      handleLogin,
+      error,
+      isPending,
+      togglePasswordVisibility,
+      passwordRef,
+      passwordRefBoolean,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -68,21 +137,87 @@ $SSP: "Source Sans Pro", sans-serif;
  */
 
 .signup {
-  max-width: 45rem;
+  max-width: 55rem;
   margin: 0 auto;
-  margin-top: 3.2rem;
+  padding: 6.4rem 3.2rem;
   .form {
-    padding: 2.8rem 4rem;
+    padding: 4.8rem;
     border: 1px solid rgba($main-light-1, 0.4);
     box-shadow: 0px 3px 11px rgba(0, 0, 0, 0.06),
       0px 10px 15px rgba(0, 0, 0, 0.03);
     border-radius: 20px;
+    width: 100%;
 
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
     gap: 3.2rem;
     margin-top: 2.4rem;
+
+    .input-container.relative {
+      position: relative;
+    }
+    .input-container {
+      display: flex;
+      flex-direction: column;
+
+      .input {
+        font-size: 1.6rem;
+        color: inherit;
+        padding: 1.5rem 2rem;
+        // background-color: #fff;
+        border: none;
+        outline: none;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s;
+
+        &:focus {
+          box-shadow: 0 1rem 2rem rgba($text, 0.1);
+        }
+
+        &:focus:invalid {
+          border-bottom: 3px solid orangered;
+        }
+
+        &:valid {
+          border-bottom: 3px solid green;
+        }
+        &:placeholder-shown + .label {
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-2rem);
+        }
+        &::placeholder {
+          font-family: $SSP;
+          letter-spacing: 1px;
+        }
+      }
+
+      .hide {
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        top: 30%;
+        transform: translateY(-30%);
+        right: 1rem;
+      }
+
+      .label {
+        font-size: 1.28rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: 0.7rem;
+        display: block;
+        transition: all 0.3s;
+        font-family: $SSP;
+        letter-spacing: 1px;
+        // transform: translateY(-8rem);
+      }
+    }
+
+    .input[type="password"] {
+      letter-spacing: 6px;
+    }
 
     &__heading {
       font-family: $SSP;
@@ -102,90 +237,6 @@ $SSP: "Source Sans Pro", sans-serif;
 
       &:hover {
         background-color: $main-light-2;
-      }
-    }
-    .group {
-      position: relative;
-
-      .input {
-        font-family: $roboto;
-        padding: 1.2rem 1rem;
-        font-size: 16px;
-        display: block;
-        width: 400px;
-        border: none;
-        border-top-left-radius: 0.5rem;
-        border-top-right-radius: 0.5rem;
-        border: 1px solid rgba($main-light-1, 0.6);
-        background: transparent;
-        width: 100%;
-        // border-radius: 0.5rem;
-
-        &:focus {
-          outline: none;
-        }
-
-        &:focus ~ label,
-        &:valid ~ label {
-          top: -2rem;
-          font-size: 1.28rem;
-          color: $main-dark-1;
-        }
-
-        &:focus ~ .bar:before,
-        &:focus ~ .bar:after {
-          width: 50%;
-        }
-      }
-
-      label {
-        color: rgba($main-dark-1, 0.5);
-        // font-size: 18px;
-        font-weight: 500;
-        position: absolute;
-        pointer-events: none;
-        left: 1rem;
-        top: 1rem;
-        transition: 0.2s ease all;
-        -moz-transition: 0.2s ease all;
-        -webkit-transition: 0.2s ease all;
-      }
-
-      .highlight {
-        position: absolute;
-        height: 60%;
-        width: 100px;
-        top: 25%;
-        left: 0;
-        pointer-events: none;
-        opacity: 0.5;
-      }
-
-      .bar {
-        position: relative;
-        display: block;
-        width: 100%;
-
-        &::before,
-        &::after {
-          content: "";
-          height: 2px;
-          width: 0;
-          bottom: 1px;
-          position: absolute;
-          background: $main-light-2;
-          border-radius: 1rem;
-          transition: 0.2s ease all;
-          -moz-transition: 0.2s ease all;
-          -webkit-transition: 0.2s ease all;
-        }
-
-        &::before {
-          left: 50%;
-        }
-        &::after {
-          right: 50%;
-        }
       }
     }
   }
@@ -211,14 +262,14 @@ $SSP: "Source Sans Pro", sans-serif;
   }
 }
 
-.show-password,
+/* .show-password,
 .hide-password {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: 1rem;
   cursor: pointer;
-}
+} */
 
 .input[type="password"] {
   letter-spacing: 0.6rem;

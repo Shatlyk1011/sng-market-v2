@@ -2,9 +2,9 @@
   <footer class="footer">
     <div class="container">
       <ul>
-        <li>Рынок</li>
-        <li>Мои Товары</li>
-        <li>О нас</li>
+        <router-link class="li" to="/market">Рынок</router-link>
+        <router-link class="li" to="/">Мои Товары</router-link>
+        <router-link class="li" to="/">О нас</router-link>
       </ul>
 
       <div class="apps">
@@ -78,11 +78,23 @@ $SSP: "Source Sans Pro", sans-serif;
     padding-bottom: 3rem;
     ul {
       display: flex;
-      // flex-direction: column;
+      align-items: center;
       gap: 1.6rem;
     }
-    li {
+    .li {
       list-style: none;
+      font-family: $SSP;
+      text-decoration: none;
+      line-height: 1.5;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+      &:hover {
+        border-bottom: 1px solid $main-dark-1;
+      }
+      &:active {
+        border-bottom: none;
+        transform: translate(0);
+      }
     }
   }
   .apps {

@@ -1,27 +1,47 @@
 <template>
   <nav class="nav">
-    <a class="logo" href="/">Logo</a>
+    <router-link class="logo" to="/">Logo</router-link>
     <div class="container">
       <ul>
-        <router-link class="li" :to="{ name: 'Market' }">Рынок</router-link>
-        <router-link class="li" :to="{ name: 'Home' }">Мои товары</router-link>
-        <router-link class="li" :to="{ name: 'Home' }">О нас</router-link>
+        <router-link class="li" :to="{ name: 'MarketView' }">Рынок</router-link>
+        <router-link v-if="user" class="li" :to="{ name: 'HomeView' }"
+          >Мои товары</router-link
+        >
+        <router-link v-if="user" class="li" :to="{ name: 'HomeView' }"
+          >Создать свой товар</router-link
+        >
       </ul>
+
       <div class="action">
-        <router-link :to="{ name: 'Signup' }">
+        <Btn1 v-if="user" class="login" title="Выйти" @click="logoutUser" />
+        <router-link v-if="!user" :to="{ name: 'Signin' }">
           <Btn1 class="login" title="Войти" />
         </router-link>
-        <!-- <Btn class="logout" title="Войти" /> -->
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+import getUser from "@/composables/getUser";
+import useLogout from "@/composables/useLogout";
 import Btn1 from "@/components/shared/Btn1";
+import { useRouter } from "vue-router";
 export default {
   name: "Nav",
   components: { Btn1 },
+
+  setup() {
+    const { user } = getUser();
+    const { error, logout, isPending } = useLogout();
+    const router = useRouter();
+    const logoutUser = async () => {
+      await logout();
+      router.push({ name: "Signin" });
+    };
+
+    return { user, logoutUser };
+  },
 };
 </script>
 
@@ -100,11 +120,10 @@ $SSP: "Source Sans Pro", sans-serif;
     .action {
       display: flex;
       gap: 2.4rem;
-
-      .login {
-        padding: 1.4rem 3.7rem 1.4rem 2.25rem;
-      }
     }
   }
+}
+.login {
+  padding: 1.4rem 3.7rem 1.4rem 2.25rem;
 }
 </style>

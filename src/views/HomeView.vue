@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="HomeView">
     <Hero />
     <Reasons />
     <Testimonials />
@@ -15,7 +15,7 @@ import Testimonials from "@/components/Home/Testimonials.vue";
 import Footer from "@/components/Home/Footer.vue";
 import Cta from "@/components/Home/Cta.vue";
 export default {
-  name: "Home",
+  name: "HomeView",
   components: { Hero, Reasons, Testimonials, Footer, Cta },
 };
 </script>

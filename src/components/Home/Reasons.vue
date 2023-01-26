@@ -1,29 +1,24 @@
 <template>
   <div class="reasons">
     <div class="container">
-      <h2 class="title">Make every step user-centric</h2>
-      <p class="subtitle">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore,
-        numquam?
-      </p>
+      <h2 class="title">Почему мы? Спросите вы!</h2>
+      <p class="subtitle">Потому что - ответим мы! :D</p>
 
       <div class="grid">
-        <List title="Hello World">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad est
-          inventore commodi vero dolore accusamus unde, quisquam corrupti cumque
-          itaque?
+        <List title="Каждый день свежий привоз">
+          Перед отправкой, продукты проходять наш внутренний осмотр на свежесть
+          лучшими микробиологами стран СНГ!
         </List>
 
-        <List title="Hello World">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad est
-          inventore commodi vero dolore accusamus unde, quisquam corrupti cumque
-          itaque?
+        <List title="У нас работают лучшие логисты">
+          Одна из наш прерогатив - это доставлять товары в назначенное
+          время.Интересный факт: 19 из 20 доставок осуществляется в обговоренный
+          срок вплоть до минуты!
         </List>
 
-        <List title="Hello World">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad est
-          inventore commodi vero dolore accusamus unde, quisquam corrupti cumque
-          itaque?
+        <List title="Мультиязычность">
+          С нами вы сможете вести общение на удобном для вас языке! Наша
+          компания владеет 14+ языком(большинство из них языки стран СНГ)
         </List>
       </div>
     </div>

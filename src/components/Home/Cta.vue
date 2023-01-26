@@ -2,10 +2,10 @@
   <div class="call-to-action">
     <div class="container">
       <div class="cta">
-        <div class="cta__heading">Lorem ipsum dolor sit amet.</div>
+        <div class="cta__heading">Мы предлагаем сотрудничество</div>
         <div class="cta__subtitle">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. At quo
-          temporibus illo dignissimos autem aperiam!
+          Для долгосрочного сотрудничества пожалуйста оставьте свои данные. Мы с
+          вами свяжемся в лижайшее время!я
         </div>
 
         <div class="form">
@@ -19,7 +19,7 @@
             <input id="name" type="text" placeholder="anton@mail.ru" required />
           </div>
           <div>
-            <label for="options">Выберите вариант</label>
+            <label for="options">Тип интересующего товара:</label>
             <select id="options">
               <option value="">Выберите:</option>
               <option value="Овощи">Овощи</option>
@@ -87,7 +87,7 @@ $SSP: "Source Sans Pro", sans-serif;
       width: 100%;
       padding: 2.4rem 3.2rem;
       &__heading {
-        color: $white;
+        color: $main-light-1;
         font-size: 3.125rem;
         font-weight: 600;
         font-family: $SSP;
@@ -131,7 +131,7 @@ $SSP: "Source Sans Pro", sans-serif;
           }
 
           &:focus {
-            box-shadow: 0 0 0 4px rgba($main-light-2, 0.6);
+            box-shadow: 0 0 0 4px rgba($main-light-2, 0.3);
           }
         }
         select {
@@ -154,6 +154,10 @@ $SSP: "Source Sans Pro", sans-serif;
 
           &:hover {
             background-color: $main-light-2;
+            color: $white;
+          }
+          &:active {
+            transform: translateY(3px) scale(0.97);
           }
         }
       }
