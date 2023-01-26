@@ -75,7 +75,7 @@ $SSP: "Source Sans Pro", sans-serif;
 0.512rem/8.19px
  */
 .call-to-action {
-  padding: 0 12rem 4.8rem;
+  padding: 12rem 4.8rem;
   .container {
     margin: 0 auto;
     border-radius: 10px;

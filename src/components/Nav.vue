@@ -7,7 +7,7 @@
         <router-link v-if="user" class="li" :to="{ name: 'HomeView' }"
           >Мои товары</router-link
         >
-        <router-link v-if="user" class="li" :to="{ name: 'HomeView' }"
+        <router-link v-if="user" class="li" :to="{ name: 'CreateProductView' }"
           >Создать свой товар</router-link
         >
       </ul>

@@ -8,7 +8,6 @@ const usePrevAndNextPages = (currentPage, maxPage) => {
   });
   const nextPage = computed(() => {
     const nextPage = currentPage.value + 1;
-    // const maxPage = Math.ceil(products.value.length / 10);
     return nextPage <= maxPage ? nextPage : null;
   });
 

@@ -16,9 +16,7 @@
         <div class="product__price">{{ product.price }} RUB</div>
         <div class="product__text">
           <span>Описание:</span><br />
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-          recusandae blanditiis dolore possimus tenetur qui iusto perferendis
-          ex, quisquam quod.
+          {{ product.description }}
         </div>
         <div class="product__btns">
           <button class="btn product__btn product__btn--1">Заказать</button>

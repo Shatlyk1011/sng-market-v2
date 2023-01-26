@@ -95,5 +95,6 @@ body {
   font-weight: 600;
   font-size: 1.6rem;
   font-family: $SSP;
+  transition: all 0.3s ease-out;
 }
 </style>

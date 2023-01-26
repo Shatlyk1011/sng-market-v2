@@ -2,8 +2,19 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Signup from "@/views/auth/Signup.vue";
 import Signin from "@/views/auth/Signin.vue";
-import MarketView from "@/views/MarketView.vue";
+const MarketView = () => import("@/views/MarketView.vue");
 import ProductView from "@/views/ProductView.vue";
+import CreateProductView from "@/views/CreateProductView.vue";
+
+import { projectAuth } from "@/firebase/config";
+const requireAuth = (to, from, next) => {
+  let user = projectAuth.currentUser;
+  if (!user) {
+    next({ name: "Signin" });
+  } else {
+    next();
+  }
+};
 
 const routes = [
   {
@@ -31,6 +42,12 @@ const routes = [
     name: "ProductView",
     component: ProductView,
     props: true,
+  },
+  {
+    path: "/create-product",
+    name: "CreateProductView",
+    component: CreateProductView,
+    beforeEnter: requireAuth,
   },
 ];
 

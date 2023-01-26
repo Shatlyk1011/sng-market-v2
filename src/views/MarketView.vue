@@ -66,12 +66,14 @@ export default {
 
   setup() {
     const { products, error } = getCollection("products");
+    console.log("products", products.value);
 
     const search = ref("");
 
     const currentPage = useCurrentPage();
     const maxPage = computed(() => {
-      return Math.ceil(products.value ? products.value.length : null / 10);
+      console.log("maxPage", maxPage.value);
+      return Math.ceil(products.value ? products.value.length : 1 / 10);
     });
 
     const { previousPage, nextPage } = usePrevAndNextPages(
