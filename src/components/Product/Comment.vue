@@ -2,6 +2,7 @@
   <div class="comment">
     <div class="comment__likes">
       <svg
+        @click="addLike"
         xmlns="http://www.w3.org/2000/svg"
         class="ionicon"
         height="16"
@@ -17,7 +18,7 @@
           d="M256 112v288M400 256H112"
         />
       </svg>
-      <span title="Количество лайков">15</span>
+      <span title="Количество лайков">{{ comment.likes }}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="16"
@@ -39,15 +40,12 @@
       <div class="comment__container">
         <div class="comment__title">
           <div class="comment__image">
-            <img
-              src="https://images.unsplash.com/photo-1558499932-9609acb6f443?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-              alt=""
-            />
+            <img :src="comment.userImage" alt="" />
           </div>
           <div class="comment__author">{{ comment.author }}</div>
           <div class="comment__date">{{ comment.createdAt }}</div>
         </div>
-        <div class="comment__actions" v-if="author">
+        <div class="comment__actions">
           <div class="comment__delete">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,17 +54,15 @@
               width="14"
               height="14"
             >
-              <title>Trash</title>
+              <title>Удалить</title>
               <path
                 d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320"
                 fill="none"
-                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="32"
               />
               <path
-                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-miterlimit="10"
                 stroke-width="32"
@@ -75,7 +71,6 @@
               <path
                 d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224"
                 fill="none"
-                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="32"
@@ -94,7 +89,6 @@
               <title>Изменить</title>
               <path
                 fill="none"
-                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="32"
@@ -114,17 +108,9 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
 export default {
   name: "Comment",
   props: ["comment"],
-  setup(props) {
-    const router = useRouter();
-
-    const author = props.comment === router.currentRoute.value.params.id;
-
-    return { author };
-  },
 };
 </script>
 
@@ -138,26 +124,6 @@ $white: #fff;
 
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
-
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
 
 .comment {
   padding: 2.4rem;
@@ -232,14 +198,18 @@ $SSP: "Source Sans Pro", sans-serif;
 
   &__actions {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
     margin-left: auto;
+    align-self: center;
   }
   &__delete,
   &__edit {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: rgba($main-dark-2, 0.05);
 
     span,
     svg {
@@ -250,6 +220,30 @@ $SSP: "Source Sans Pro", sans-serif;
     }
     .delete {
       color: red;
+    }
+  }
+  &__delete {
+    stroke: red;
+    &:hover {
+      background-color: rgba(red, 0.7);
+      & > span {
+        color: ($white);
+      }
+      & > svg {
+        stroke: ($white);
+      }
+    }
+  }
+  &__edit {
+    stroke: $main-dark-1;
+    &:hover {
+      background-color: $main-dark-1;
+      & > span {
+        color: ($white);
+      }
+      & > svg {
+        stroke: ($white);
+      }
     }
   }
 

@@ -26,14 +26,14 @@
         />
         <label class="label" for="email">Пароль</label>
         <img
-          v-if="!passwordRefBoolean"
+          v-if="passwordRefBoolean"
           @click="togglePasswordVisibility"
           class="hide"
           src="../../assets/icons/eye.svg"
           alt=""
         />
         <img
-          v-if="passwordRefBoolean"
+          v-if="!passwordRefBoolean"
           @click="togglePasswordVisibility"
           class="hide"
           src="../../assets/icons/eye-off.svg"
@@ -63,13 +63,15 @@ export default {
   name: "Signin",
   components: {},
 
+  /*       
+        } */
   setup() {
     const router = useRouter();
     const email = ref("");
     const password = ref("");
 
     //показать и скрыть пароль
-    const passwordRefBoolean = ref(true);
+    const passwordRefBoolean = ref(false);
     const passwordRef = ref(null);
 
     const { error, login, isPending } = useSignin();

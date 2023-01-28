@@ -1,8 +1,11 @@
 <template>
-  <div class="create-product">
-    <form class="form" @submit.prevent="createNewProduct">
+  <div class="change-product">
+    <form class="form" @submit.prevent="updateProduct">
+      <h2>
+        Здесь вы можете изменить описание, цену, изображение ваших товаров
+      </h2>
       <label class="label"
-        ><span> Название товара </span>
+        ><span> </span>
         <input
           type="text"
           v-model.trim="title"
@@ -29,8 +32,8 @@
         </select>
       </div>
       <label class="label">
-        <span>Выберите фото (png/jpeg)</span>
-        <input @input="handleImage" type="file" required />
+        <span>Выберите новое фото (png/jpeg)</span>
+        <input @input="handleImage" type="file" />
         <div style="font-size: 1.28rem" class="error" v-if="imageTypeError">
           {{ imageTypeError }}
         </div>
@@ -43,28 +46,34 @@
           required
         ></textarea>
       </label>
-      <button class="btn form__btn">Создать товар</button>
+      <div class="error" v-if="error">{{ error }}</div>
+      <div class="error" v-if="updateError">{{ updateError }}</div>
+      <div class="error" v-if="storageError">{{ storageError }}</div>
+
+      <div class="error" v-if="imageTypeError">{{ imageTypeError }}</div>
+      <button class="btn form__btn" v-if="!isPending">Изменить описания</button>
+      <DisabledButton v-if="isPending" title="Изменяем" />
     </form>
   </div>
 </template>
 
 <script>
-import getUser from "@/composables/getUser";
-import useCollection from "./../composables/useCollection";
-import useStorage from "./../composables/useStorage";
-import { timestamp } from "@/firebase/config";
+import getDocument from "@/composables/getDocument";
+import useDocument from "@/composables/useDocument";
+import useStorage from "@/composables/useStorage";
 
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import DisabledButton from "@/components/shared/DisabledButton.vue";
+
+import router from "@/router";
+import { ref, watch } from "@vue/runtime-core";
 export default {
-  name: "CreateProductView",
+  name: "ChangeProductView",
+
+  components: { DisabledButton },
 
   setup() {
-    const { user } = getUser();
-    const { addDoc } = useCollection("products");
-    const { filePath, url, uploadImage, error } = useStorage();
-    const router = useRouter();
-
+    const productId = router.currentRoute.value.params.id;
+    console.log(typeof productId);
     const title = ref("");
     const price = ref("");
     const category = ref("");
@@ -73,11 +82,27 @@ export default {
     const imageTypeError = ref(null);
     const isPending = ref(null);
 
+    //composables
+    const { document, error } = getDocument("products", productId);
+    const { updateDoc, error: updateError } = useDocument(
+      "products",
+      productId
+    );
+
+    const {
+      uploadImage,
+      deleteImage,
+      url: imageUrl,
+      error: storageError,
+      filePath,
+    } = useStorage();
+
     const allowedImageType = ["image/png", "image/jpeg"];
     const handleImage = (e) => {
       let selected = e.target.files[0];
       if (selected && allowedImageType.includes(selected.type)) {
         image.value = selected;
+        console.log("new image1", image.value);
       } else {
         imageTypeError.value = "Только png/jpen форматы";
         setTimeout(() => {
@@ -86,22 +111,40 @@ export default {
       }
     };
 
-    const createNewProduct = async () => {
+    //подставить имеющиеся значения
+    watch(document, () => {
+      setValues();
+    });
+    const setValues = () => {
+      title.value = document.value.title;
+      price.value = document.value.price;
+      category.value = document.value.category;
+      description.value = document.value.description;
+    };
+    const updateProduct = async () => {
       isPending.value = true;
-      await uploadImage(image.value);
-      await addDoc({
+      //удалить старое и загрузить новое изображение
+      if (image.value) {
+        await deleteImage(document.value.filePath);
+
+        await uploadImage(image.value);
+      }
+
+      //обновить данные
+      await updateDoc({
         title: title.value,
         price: price.value,
         category: category.value,
         description: description.value,
-        imageUrl: url.value,
         filePath: filePath.value,
-        userName: user.value.displayName,
-        userUid: user.value.uid,
-        createdAt: timestamp(),
       });
-      isPending.value = false;
-      if (!error.value) {
+      if (imageUrl.value) {
+        await updateDoc({
+          imageUrl: imageUrl.value,
+        });
+      }
+      isPending.value = null;
+      if (!error.value && !updateError.value) {
         router.push({ name: "MarketView" });
       }
     };
@@ -111,9 +154,14 @@ export default {
       price,
       category,
       description,
+      document,
       handleImage,
+      error,
+      isPending,
       imageTypeError,
-      createNewProduct,
+      updateError,
+      storageError,
+      updateProduct,
     };
   },
 };
@@ -130,33 +178,7 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
-/* 
-  BORDER-RADIUS
-  0.8rem, .
-  1rem,
-  1.6rem,
- */
-
-.create-product {
+.change-product {
   padding: 6.4rem 4.8rem;
   .form {
     max-width: 45rem;
@@ -165,6 +187,15 @@ $SSP: "Source Sans Pro", sans-serif;
     flex-direction: column;
     gap: 2.4rem;
     line-height: 1.4;
+
+    h2 {
+      font-size: 2rem;
+      line-height: 1.4;
+      font-family: $SSP;
+      font-weight: 600;
+      color: $main-dark-1;
+      text-align: center;
+    }
     .label {
       display: flex;
       flex-direction: column;
@@ -199,6 +230,7 @@ $SSP: "Source Sans Pro", sans-serif;
         height: 12.8rem;
       }
     }
+
     &__btn {
       padding: 1rem 1.4rem;
       background-color: $main-dark-1;
@@ -211,11 +243,11 @@ $SSP: "Source Sans Pro", sans-serif;
 
       transition: all 0.2s ease;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: $main-dark-2;
         box-shadow: 0 1rem 2rem rgba($main-dark-2, 0.1);
       }
-      &:active {
+      &:active:not(:disabled) {
         transform: translateY(4px) scale(0.98);
       }
     }

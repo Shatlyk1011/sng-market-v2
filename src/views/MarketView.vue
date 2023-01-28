@@ -2,12 +2,6 @@
   <div class="market">
     <div class="market__container">
       <div class="market__quantity">
-        <!--         <Search
-          btnText="Поиск..."
-          placeholder="Название товара..."
-          flexRow="flexRow"
-          @handleInput="search = $event"
-        /> -->
         <div class="pages">
           Текущая страница <span>{{ currentPage }}</span> из
           <span>{{ maxPage }}</span>
@@ -21,7 +15,7 @@
       </div>
 
       <div class="grid">
-        <Product
+        <ProductItem
           v-for="product in displayedProducts"
           :key="product.id"
           :product="product"
@@ -51,8 +45,7 @@
 </template>
 
 <script>
-import Product from "@/components/Market/Product-Item.vue";
-import Search from "@/components/shared/Search.vue";
+import ProductItem from "@/components/Market/Product-Item.vue";
 import Footer from "@/components/Home/Footer.vue";
 
 import getCollection from "@/composables/getCollection";
@@ -62,29 +55,31 @@ import usePrevAndNextPages from "@/composables/usePrevAndNextPages";
 import { ref, computed } from "vue";
 export default {
   name: "Market",
-  components: { Product, Search, Footer },
+  components: { ProductItem, Footer },
 
   setup() {
     const { products, error } = getCollection("products");
-    console.log("products", products.value);
 
     const search = ref("");
 
     const currentPage = useCurrentPage();
+
+    console.log("currentPage", currentPage.value);
+
     const maxPage = computed(() => {
       console.log("maxPage", maxPage.value);
-      return Math.ceil(products.value ? products.value.length : 1 / 10);
+      return Math.ceil(products.value ? products.value.length : 1 / 6);
     });
 
     const { previousPage, nextPage } = usePrevAndNextPages(
-      currentPage,
+      currentPage.value,
       maxPage
     );
 
     const displayedProducts = computed(() => {
       const pageNumber = currentPage.value;
-      const firstJobIndex = (pageNumber - 1) * 10;
-      const lastJobIndex = pageNumber * 10;
+      const firstJobIndex = (pageNumber - 1) * 6;
+      const lastJobIndex = pageNumber * 6;
       return products.value
         ? products.value.slice(firstJobIndex, lastJobIndex)
         : null;

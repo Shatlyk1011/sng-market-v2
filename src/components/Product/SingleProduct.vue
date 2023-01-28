@@ -5,7 +5,17 @@
         <img :src="product.imageUrl" alt="" />
       </div>
       <div class="product__description">
-        <div class="product__name">{{ product.title }}</div>
+        <div style="display: flex; justify-content: space-between; gap: 1rem">
+          <div class="product__name">{{ product.title }}</div>
+          <div style="display: flex; flex-direction: column; gap: 1rem">
+            <router-link
+              :to="{ name: 'ChangeProductView', params: { id: productId } }"
+              class="error"
+              >Изменить</router-link
+            >
+            <div class="error">Удалить</div>
+          </div>
+        </div>
         <div class="product__seller">
           Продавец: <span> {{ product.userName }}</span>
         </div>
@@ -59,10 +69,20 @@
 <script>
 import FiveStars from "@/components/shared/Five-stars.vue";
 import Availability from "@/components/shared/Availability.vue";
+
+import router from "@/router";
 export default {
   name: "SingleProduct",
   components: { FiveStars, Availability },
-  props: ["error", "product"],
+  props: ["error", "product", "id"],
+
+  setup(props) {
+    console.log("props", props.id);
+
+    const productId = router.currentRoute.value.params.id;
+
+    return { productId };
+  },
 };
 </script>
 
@@ -148,6 +168,7 @@ $SSP: "Source Sans Pro", sans-serif;
     font-weight: 600;
     font-family: $SSP;
     margin-left: 1px;
+    margin-top: 1rem;
 
     span {
       font-weight: 600;

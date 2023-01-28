@@ -10,13 +10,12 @@ const useStorage = () => {
   const filePath = ref(null);
 
   const uploadImage = async (image) => {
-    filePath.value = `images/${user.value.uid}/${image.name}`;
+    filePath.value = `images/userProfileImages/${image.name}`;
     const storageRef = projectStorage.ref(filePath.value);
 
     try {
       const res = await storageRef.put(image);
       url.value = await res.ref.getDownloadURL();
-      console.log("downloadurl", url.value);
     } catch (err) {
       error.value = err.message;
     }

@@ -97,4 +97,12 @@ body {
   font-family: $SSP;
   transition: all 0.3s ease-out;
 }
+
+.input,
+input {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+}
 </style>

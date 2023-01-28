@@ -38,25 +38,55 @@
         />
         <label class="label" for="email">Пароль</label>
         <img
-          v-if="!passwordRefBoolean"
+          v-if="passwordRefBoolean"
           @click="togglePasswordVisibility"
           class="hide"
           src="../../assets/icons/eye.svg"
           alt=""
         />
         <img
-          v-if="passwordRefBoolean"
+          v-if="!passwordRefBoolean"
           @click="togglePasswordVisibility"
           class="hide"
           src="../../assets/icons/eye-off.svg"
           alt=""
         />
       </div>
+
+      <div class="input photo" ref="photoRef">
+        <label
+          class="label"
+          for="photo"
+          style="
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: inline-block;
+            position: relative;
+          "
+          >Выберите фото для аватарки</label
+        >
+        <input
+          @input="handleInputPhoto"
+          id="photo"
+          placeholder="Photo"
+          type="file"
+          required
+        />
+        <img
+          class="quote"
+          @mouseenter="showQuote"
+          @mouseleave="hideQuote"
+          src="../../assets/icons/question.svg"
+          alt="question"
+        />
+        <p>Средство связи для потенциальных покупателей.</p>
+        <div class="error" v-if="photoTypeError">{{ photoTypeError }}</div>
+      </div>
       <div class="error" v-if="error">{{ error }}</div>
 
       <div class="check">
         <input type="checkbox" id="checkbox" required />
-        <label for="checkbox">Я принимаю все </label><span>условиe</span>
+        <label for="checkbox">Я принимаю все </label><span>условия</span>
       </div>
       <button class="btn form__btn">Зарегистрироватсья</button>
     </form>
@@ -71,6 +101,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import useSignup from "@/composables/useSignup";
+import useStorageForUserPhoto from "@/composables/useStorageForUserPhoto";
 export default {
   name: "Signup",
 
@@ -79,11 +110,13 @@ export default {
     const userName = ref("");
     const email = ref("");
     const password = ref("");
+    const photo = ref(null);
+    const photoTypeError = ref(null);
+    const photoRef = ref(null);
 
     //показать и скрыть пароль
-    const passwordRefBoolean = ref(true);
+    const passwordRefBoolean = ref(false);
     const passwordRef = ref(null);
-
     const togglePasswordVisibility = () => {
       passwordRefBoolean.value = !passwordRefBoolean.value;
       if (passwordRefBoolean.value === true) {
@@ -93,14 +126,42 @@ export default {
       }
     };
 
+    //composables
     const { error, signup, isPending } = useSignup();
 
+    //Зарегистрировать пользователя
+    const allowedPhotoType = ["image/png", "image/jpeg"];
+
     const handleRegister = async () => {
-      await signup(email.value, password.value, userName.value);
-      console.log(error);
-      if (!error.value) {
-        router.push({ name: "HomeView" });
+      if (photo.value && allowedPhotoType.includes(photo.value.type)) {
+        await signup(email.value, password.value, userName.value, photo.value);
+        console.log("userCreated");
+        if (!error.value) {
+          router.push({ name: "HomeView" });
+        }
+      } else {
+        photoTypeError.value = "Только png/jpen форматы";
+        setTimeout(() => {
+          photoTypeError.value = null;
+        }, 3000);
       }
+    };
+
+    const handleInputPhoto = (e) => {
+      photo.value = e.target.files[0];
+      console.log("photoval", photo.value);
+    };
+
+    //показать/скрыть question mark
+    const showQuote = () => {
+      setTimeout(() => {
+        photoRef.value.classList.add("active");
+      }, 300);
+    };
+    const hideQuote = () => {
+      setTimeout(() => {
+        photoRef.value.classList.remove("active");
+      }, 300);
     };
 
     return {
@@ -109,10 +170,15 @@ export default {
       password,
       handleRegister,
       isPending,
+      photoRef,
       error,
+      photoTypeError,
       passwordRefBoolean,
       passwordRef,
       togglePasswordVisibility,
+      handleInputPhoto,
+      showQuote,
+      hideQuote,
     };
   },
 };
@@ -163,7 +229,7 @@ $SSP: "Source Sans Pro", sans-serif;
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 3.2rem;
+    gap: 2.4rem;
     margin-top: 2.4rem;
 
     &__heading {
@@ -313,7 +379,55 @@ $SSP: "Source Sans Pro", sans-serif;
   }
 }
 
-.input[type="password"] {
-  letter-spacing: 0.6rem;
+.photo {
+  position: relative;
+
+  img {
+    position: absolute;
+    top: -0.5rem;
+    right: 1rem;
+    z-index: 100;
+    cursor: help;
+    z-index: 100;
+  }
+
+  p {
+    position: absolute;
+    font-size: 1rem;
+    right: -14.5%;
+    top: -6rem;
+    width: 15rem;
+    text-align: center;
+    line-height: 1.2;
+    background-color: $main-light-2;
+    border-radius: 1rem;
+    opacity: 0;
+    visibility: 0;
+    user-select: none;
+    transition: opacity 0.3s;
+    padding: 6px 1rem;
+    z-index: 10;
+    color: $white;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -4px;
+      border-width: 4px;
+      border-radius: 1px;
+      border-style: solid;
+      border-color: transparent;
+      border-top-color: $main-light-2;
+    }
+  }
+  &.active {
+    p {
+      visibility: visible;
+      opacity: 1;
+      user-select: auto;
+    }
+  }
 }
 </style>

@@ -5,6 +5,8 @@ import Signin from "@/views/auth/Signin.vue";
 const MarketView = () => import("@/views/MarketView.vue");
 import ProductView from "@/views/ProductView.vue";
 import CreateProductView from "@/views/CreateProductView.vue";
+const MyProducts = () => import("@/views/MyProductsView.vue");
+const ChangeProductView = () => import("@/views/ChangeProductView.vue");
 
 import { projectAuth } from "@/firebase/config";
 const requireAuth = (to, from, next) => {
@@ -38,16 +40,28 @@ const routes = [
     component: MarketView,
   },
   {
+    path: "/my-products",
+    name: "MyProductsView",
+    component: MyProducts,
+    // beforeEnter: requireAuth,
+  },
+  {
     path: "/product/:id",
     name: "ProductView",
     component: ProductView,
     props: true,
   },
   {
+    path: "/change/:id",
+    name: "ChangeProductView",
+    component: ChangeProductView,
+    // beforeEnter: requireAuth,
+  },
+  {
     path: "/create-product",
     name: "CreateProductView",
     component: CreateProductView,
-    beforeEnter: requireAuth,
+    // beforeEnter: requireAuth,
   },
 ];
 

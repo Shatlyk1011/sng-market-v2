@@ -4,9 +4,10 @@ import { projectAuth } from "../firebase/config";
 const user = ref(projectAuth.currentUser);
 
 // auth changes
-projectAuth.onAuthStateChanged((_user) => {
-  console.log("текущий пользователь:", _user);
-  user.value = _user;
+projectAuth.onAuthStateChanged((currentUser) => {
+  console.log("текущий пользователь:", currentUser);
+
+  user.value = currentUser;
 });
 
 const getUser = () => {

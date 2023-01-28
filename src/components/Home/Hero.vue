@@ -4,7 +4,7 @@
       <div class="img-container"></div>
       <div class="content">
         <div class="title">
-          Добро пожаловать на лучший онлайн рынок в <span>СНГ</span>
+          {{ action }} на лучший онлайн рынок в <br /><span>СНГ</span>
         </div>
         <div class="subtitle">
           Лучший онлайн рынок для оптовых закупок в
@@ -33,10 +33,32 @@
 </template>
 
 <script>
+import { onBeforeUnmount, onMounted, ref } from "@vue/runtime-core";
 import Search from "../shared/Search.vue";
 export default {
   name: "Hero",
   components: { Search },
+
+  setup() {
+    const action = ref("Добро пожаловать");
+    const interval = ref(null);
+
+    const changeTitle = () => {
+      interval.value = setInterval(() => {
+        const actions = ["Добро пожаловать", "Welcome", "Hosh geldiniz"];
+        const currentActionIndex = actions.indexOf(action.value);
+        const nextActionIndex = (currentActionIndex + 1) % 3;
+        const nextAction = actions[nextActionIndex];
+        console.log(currentActionIndex);
+        action.value = nextAction;
+      }, 2000);
+    };
+
+    onMounted(() => changeTitle());
+    onBeforeUnmount(() => clearInterval(interval.value));
+
+    return { action };
+  },
 };
 </script>
 

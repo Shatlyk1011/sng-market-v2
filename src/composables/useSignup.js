@@ -1,10 +1,12 @@
 import { ref } from "vue";
 import { projectAuth } from "../firebase/config";
+import useStorageForUserPhoto from "./useStorageForUserPhoto";
 
 const error = ref(null);
 const isPending = ref(false);
+const { uploadImage, url: imageUrl } = useStorageForUserPhoto();
 
-const signup = async (email, password, name) => {
+const signup = async (email, password, name, photo) => {
   error.value = null;
   isPending.value = true;
 
@@ -13,8 +15,13 @@ const signup = async (email, password, name) => {
       email,
       password
     );
+    await uploadImage(photo);
+    console.log("imageUploaded");
     console.log("res", res.user);
-    await res.user.updateProfile({ displayName: name });
+    await res.user.updateProfile({
+      displayName: name,
+      photoURL: imageUrl.value,
+    });
     error.value = null;
     isPending.value = false;
 
