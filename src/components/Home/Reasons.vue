@@ -27,10 +27,9 @@
 
 <script>
 import List from "@/components/shared/List-Item.vue";
-import Icon from "@/assets/icons/search.svg";
 export default {
   name: "Reasons",
-  components: { List, Icon },
+  components: { List },
 };
 </script>
 

@@ -1,53 +1,11 @@
 <template>
   <div class="availability">
     <div class="available available--1" v-if="ava">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        class="ionicon"
-        viewBox="0 0 512 512"
-      >
-        <title>{{ availableText }}</title>
-        <path
-          d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
-          fill="none"
-          stroke-miterlimit="10"
-          stroke-width="32"
-        />
-        <path
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="32"
-          d="M352 176L217.6 336 160 272"
-        />
-      </svg>
+      <ion-icon class="icon" name="checkmark-done-outline"></ion-icon>
       <span> {{ availableText }}</span>
     </div>
-    <div class="unavailable unavailable--1" v-else>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        class="ionicon"
-        viewBox="0 0 512 512"
-      >
-        <title>{{ unavailableText }}</title>
-        <path
-          d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
-          fill="none"
-          stroke-miterlimit="10"
-          stroke-width="32"
-        />
-        <path
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="32"
-          d="M336 256H176"
-        />
-      </svg>
+    <div class="unavailable unavailable--1" v-if="!ava">
+      <ion-icon class="icon" name="remove-circle-outline"></ion-icon>
       <span> {{ unavailableText }}</span>
     </div>
   </div>
@@ -70,6 +28,11 @@ export default {
 <style lang="scss" scoped>
 .availability {
   margin-top: 1.6rem;
+
+  .icon {
+    height: 1.8rem;
+    width: 1.8rem;
+  }
   .available,
   .unavailable {
     display: flex;
@@ -83,16 +46,16 @@ export default {
     span {
       color: green;
     }
-    & svg {
-      stroke: green;
+    .icon {
+      color: green;
     }
   }
   .unavailable--1 {
     span {
       color: #ba2d0b;
     }
-    & svg {
-      stroke: #ba2d0b;
+    .icon {
+      color: #ba2d0b;
     }
   }
 }

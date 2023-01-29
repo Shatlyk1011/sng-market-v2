@@ -14,21 +14,7 @@
         :to="{ name: 'ProductView', params: { id: product.id } }"
         >{{ product.title }}</router-link
       >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="ionicon"
-        height="16"
-        width="16"
-        viewBox="0 0 512 512"
-      >
-        <title>Like</title>
-        <path
-          d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="48"
-        />
-      </svg>
+      <ion-icon class="product__icon" name="heart"></ion-icon>
     </div>
     <div class="product__rating">
       <FiveStars />
@@ -131,21 +117,18 @@ $SSP: "Source Sans Pro", sans-serif;
     display: flex;
     justify-content: space-between;
     gap: 1.6rem;
+  }
+  &__icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    color: $main-dark-1;
 
-    & svg {
-      fill: transparent;
-      stroke: $text;
-      transition: all 0.2s ease-out;
-      min-width: 1.8rem;
-      min-height: 1.8rem;
-
-      &:hover {
-        fill: red;
-        stroke: red;
-      }
-      &:active {
-        transform: translateY(3px) scale(0.9);
-      }
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    &:hover {
+      color: red;
+    }
+    &:active {
+      transform: translateY(3px) scale(0.9);
     }
   }
 

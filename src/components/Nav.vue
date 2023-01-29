@@ -14,6 +14,7 @@
 
       <div class="action">
         <Btn1 v-if="user" class="login" title="Выйти" @click="logoutUser" />
+
         <router-link v-if="!user" :to="{ name: 'Signin' }">
           <Btn1 class="login" title="Войти" />
         </router-link>
@@ -25,7 +26,7 @@
 <script>
 import getUser from "@/composables/getUser";
 import useLogout from "@/composables/useLogout";
-import Btn1 from "@/components/shared/Btn1";
+import Btn1 from "@/components/shared/Btn-1";
 import { useRouter } from "vue-router";
 export default {
   name: "Nav",

@@ -1,36 +1,40 @@
 <template>
-  <footer class="footer">
-    <div class="container">
-      <ul>
-        <router-link class="li" to="/market">Рынок</router-link>
-        <router-link class="li" to="/">Мои Товары</router-link>
-        <router-link class="li" to="/">О нас</router-link>
-      </ul>
-
-      <div class="apps">
-        <div class="app">
-          <div class="app__icon">
-            <img src="../../assets/icons/logo-apple.svg" alt="" />
-          </div>
-          <div class="app__description">
-            <span>Скачать в</span>
-            <div>App Store</div>
-          </div>
+  <div class="footer-container">
+    <footer class="footer">
+      <div class="contacts">
+        <div class="mail">
+          <span>Email: </span> <br />
+          <a href="mailto:shatlykabdullayev@mail.ru"
+            >shatlykabdullayev@mail.ru</a
+          >
         </div>
-
-        <div class="app">
-          <div class="app__icon">
-            <img src="../../assets/icons/logo-google.svg" alt="" />
-          </div>
-          <div class="app__description">
-            <span>Скачать в</span>
-            <div>Google Play</div>
-          </div>
+        <div class="phone">
+          <span>Телефон:</span> <br />
+          <a href="tel:+79965177225">+79965177225</a>
         </div>
       </div>
-    </div>
-    <div class="copyright">&copy;Copyright 2022. Все права защищены.</div>
-  </footer>
+      <div class="footer__description">
+        <ul class="social-links">
+          <li class="social-link">
+            <a target="_blank" href="https://instagram.com/shatlykabdullayew"
+              ><ion-icon class="icon" name="logo-instagram"></ion-icon
+            ></a>
+          </li>
+          <li class="social-link">
+            <a target="_blank" href="https://vk.com/shatlyk99"
+              ><ion-icon class="icon" name="logo-vk"></ion-icon
+            ></a>
+          </li>
+          <li class="social-link">
+            <a target="_blank" href="https://t.me/sh_1415926535"
+              ><ion-icon class="icon" name="send"></ion-icon
+            ></a>
+          </li>
+        </ul>
+        <div class="footer__rights">&#169; 2022 Все права защищены.</div>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <script>
@@ -48,108 +52,148 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
-.footer {
-  padding: 4rem 16rem;
+.footer-container {
   background-color: $main-light-1;
-  .container {
-    display: flex;
-    justify-content: space-around;
+  .footer {
+    margin: 0 25rem;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 5rem 10rem;
 
-    border-bottom: 1px solid $main-dark-2;
-    padding-bottom: 3rem;
-    ul {
-      display: flex;
-      align-items: center;
-      gap: 1.6rem;
+    @media (max-width: 1250px) {
+      & {
+        margin: 0 15rem;
+        padding: 3rem 5rem;
+      }
     }
-    .li {
+    @media (max-width: 900px) {
+      & {
+        grid-template-columns: 1fr;
+        gap: 1.6rem;
+        margin: 0 5rem;
+      }
+    }
+    @media (max-width: 360px) {
+      & {
+        margin: 0;
+      }
+    }
+    &__description {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.4rem;
+      align-items: flex-end;
+
+      display: flex;
+      flex-direction: column;
+
+      @media (max-width: 900px) {
+        & {
+          text-align: center;
+          justify-self: center;
+        }
+      }
+    }
+
+    &__rights {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ababab;
+      line-height: 1.4;
+    }
+
+    &__icons {
+      display: flex;
       list-style: none;
-      font-family: $SSP;
-      text-decoration: none;
-      line-height: 1.5;
-      border-bottom: 1px solid transparent;
-      transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+      font-size: 1.6rem;
+      gap: 3.2rem;
+    }
+
+    &__icon {
+      color: #fff;
+
+      transition: all 0.2s;
+
       &:hover {
-        border-bottom: 1px solid $main-dark-1;
-      }
-      &:active {
-        border-bottom: none;
-        transform: translate(0);
+        transform: translateY(-2px) scale(1.1);
+        color: #fba820;
       }
     }
   }
-  .apps {
+
+  .contacts {
+    font-size: 1.4rem;
     display: flex;
-    gap: 2.4rem;
-    align-self: center;
-    .app {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background-color: $main-dark-2;
-      color: $white;
-      padding: 0.4rem 1rem;
-      border-radius: 1rem;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+    align-items: flex-start;
+    @media (max-width: 900px) {
+      & {
+        text-align: center;
+        align-items: center;
+      }
+    }
+
+    & span {
+      font-weight: 600;
+      letter-spacing: 0.8px;
+    }
+
+    & a:link,
+    a:visited {
+      text-decoration: none;
+      color: #fba820;
+      border-bottom: 1px solid transparent;
+      transition: all 0.2s;
+      letter-spacing: 0.4px;
 
       &:hover {
-        transform: translateY(-1px) scale(1.04);
-      }
-
-      &:active {
-        transform: translateY(2px) scale(0.98);
-      }
-      &__icon {
-        display: flex;
-        align-self: center;
-        img {
-          display: inline-block;
-        }
-      }
-      &__description {
-        display: flex;
-        flex-direction: column;
-        line-height: 1;
-        font-family: $SSP;
-        text-align: center;
-
-        span {
-          color: $white;
-          font-size: 1.024rem;
-          margin: 0;
-          text-align: left;
-        }
-        div {
-          font-weight: 600;
-          color: $white;
-        }
+        border-bottom: 1px solid #fba820;
       }
     }
   }
-}
 
-.copyright {
-  text-align: center;
-  margin-top: 2.4rem;
+  .mail,
+  .phone {
+    line-height: 1.5;
+  }
+
+  .no-margin {
+    margin: 0;
+  }
+
+  .social-links {
+    @media (max-width: 900px) {
+      & {
+        margin: 0 auto;
+      }
+    }
+  }
+  .social-links {
+    display: flex;
+    gap: 3.6rem;
+    list-style: none;
+
+    @media (max-width: 900px) {
+      & {
+        justify-content: center;
+      }
+    }
+  }
+
+  .icon {
+    height: 2rem;
+    width: 2rem;
+    color: #fff;
+
+    transition: all 0.2s;
+
+    &:hover {
+      transform: translateY(-2px) scale(1.1);
+      color: #fba820;
+    }
+  }
 }
 </style>

@@ -52,7 +52,7 @@
 
       <div class="error" v-if="imageTypeError">{{ imageTypeError }}</div>
       <button class="btn form__btn" v-if="!isPending">Изменить описания</button>
-      <DisabledButton v-if="isPending" title="Изменяем" />
+      <DisabledButton v-if="isPending" title="Вносим изменения" />
     </form>
   </div>
 </template>

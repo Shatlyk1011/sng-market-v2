@@ -2,24 +2,15 @@
   <button class="myBtn">
     {{ title }}
     <div class="icon">
-      <svg
-        height="24"
-        width="24"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0 0h24v24H0z" fill="none"></path>
-        <path
-          d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
-          fill="currentColor"
-        ></path>
-      </svg>
+      <ion-icon class="search-icon" name="arrow-forward-outline"></ion-icon>
     </div>
   </button>
 </template>
 
 <script>
 export default {
+  name: "Btn-1",
+
   props: ["title"],
 };
 </script>
@@ -68,12 +59,12 @@ $text: #181f29;
   width: calc(100% - 0.6rem);
 }
 
-.myBtn .icon svg {
+.myBtn .icon .search-icon {
   width: 1.1rem;
   transition: transform 0.3s;
   color: $main-dark;
 }
-.myBtn:hover .icon svg {
+.myBtn:hover .icon .search-icon {
   transform: translateX(0.1rem);
 }
 

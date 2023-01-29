@@ -53,9 +53,9 @@
 
       <div class="no-products" v-else>
         <h3>
-          Вы еще ничего не добавляли. Что бы добавить свой продукт нажмите на
+          Вы еще ничего не добавляли. Что бы добавить свой продукт нажмите
           <router-link class="link" :to="{ name: 'CreateProductView' }"
-            >ссылку</router-link
+            >сюда</router-link
           >
         </h3>
       </div>

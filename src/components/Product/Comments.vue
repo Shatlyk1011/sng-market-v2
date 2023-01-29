@@ -79,14 +79,18 @@ export default {
         docId: productId,
         commentId: "",
         likes: 0,
+        likedUsers: [],
       };
 
       await addDoc(newComment).then((doc) => {
-        commentId.value = doc.id;
-        projectFirestore
-          .collection("comments")
-          .doc(commentId.value)
-          .update({ commentId: commentId.value });
+        if (commentItself.value !== "" && " ") {
+          commentId.value = doc.id;
+          console.log("commentID", doc.id);
+          projectFirestore
+            .collection("comments")
+            .doc(commentId.value)
+            .update({ commentId: commentId.value });
+        }
       });
       commentItself.value = null;
     };

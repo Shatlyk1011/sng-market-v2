@@ -1,40 +1,12 @@
 <template>
   <div class="comment">
     <div class="comment__likes">
-      <svg
-        @click="addLike"
-        xmlns="http://www.w3.org/2000/svg"
-        class="ionicon"
-        height="16"
-        width="16"
-        viewBox="0 0 512 512"
-      >
-        <title>Лайк</title>
-        <path
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="32"
-          d="M256 112v288M400 256H112"
-        />
-      </svg>
+      <ion-icon
+        @click="handleLike(comment.likes, comment.likedUsers)"
+        :class="`comment__icon ${checkLikes ? 'comment__icon--red' : ''}`"
+        name="heart"
+      ></ion-icon>
       <span title="Количество лайков">{{ comment.likes }}</span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="16"
-        width="16"
-        class="ionicon"
-        viewBox="0 0 512 512"
-      >
-        <title>Дизлайк</title>
-        <path
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="32"
-          d="M400 256H112"
-        />
-      </svg>
     </div>
     <div style="width: 100%">
       <div class="comment__container">
@@ -47,54 +19,17 @@
         </div>
         <div class="comment__actions">
           <div class="comment__delete">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon"
-              viewBox="0 0 512 512"
-              width="14"
-              height="14"
-            >
-              <title>Удалить</title>
-              <path
-                d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="32"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-miterlimit="10"
-                stroke-width="32"
-                d="M80 112h352"
-              />
-              <path
-                d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="32"
-              />
-            </svg>
+            <ion-icon
+              class="comment__icon delete"
+              name="trash-outline"
+            ></ion-icon>
             <span class="delete">Удалить</span>
           </div>
           <div class="comment__edit">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="13"
-              height="13"
-              class="ionicon"
-              viewBox="0 0 512 512"
-            >
-              <title>Изменить</title>
-              <path
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="32"
-                d="M364.13 125.25L87 403l-23 45 44.99-23 277.76-277.13-22.62-22.62zM420.69 68.69l-22.62 22.62 22.62 22.63 22.62-22.63a16 16 0 000-22.62h0a16 16 0 00-22.62 0z"
-              />
-            </svg>
+            <ion-icon
+              class="comment-icon edit"
+              name="pencil-outline"
+            ></ion-icon>
             <span>Изменить</span>
           </div>
         </div>
@@ -108,9 +43,46 @@
 </template>
 
 <script>
+import getUser from "@/composables/getUser";
+import useDocument from "@/composables/useDocument";
+
+import { ref } from "vue";
+
 export default {
   name: "Comment",
   props: ["comment"],
+
+  setup(props) {
+    const checkedLike = ref(null);
+
+    //composables
+    const { user } = getUser();
+    const { updateDoc } = useDocument("comments", props.comment.commentId);
+
+    const handleLike = async (currentLikes, likedUsers) => {
+      const checkLike = likedUsers.find(
+        (like) => like.userLikeId === user.value.uid
+      );
+      if (!checkLike || !likedUsers.length) {
+        await updateDoc({
+          likedUsers: [...likedUsers, { userLikeId: user.value.uid }],
+
+          likes: currentLikes + 1,
+        });
+      } else if (checkLike) {
+        const removeUserId = likedUsers.filter(
+          (like) => like.userLikeId != user.value.uid
+        );
+        console.log("removeUserId", removeUserId);
+        await updateDoc({
+          likedUsers: [...removeUserId],
+          likes: currentLikes - 1,
+        });
+      }
+    };
+
+    return { handleLike, checkedLike };
+  },
 };
 </script>
 
@@ -130,6 +102,24 @@ $SSP: "Source Sans Pro", sans-serif;
 
   display: flex;
   gap: 2.4rem;
+
+  &__icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: $main-dark-2;
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    &:hover {
+      color: red;
+    }
+    &:active {
+      transform: translateY(3px) scale(0.9);
+    }
+
+    &--red {
+      color: red;
+    }
+  }
+
   &__likes {
     display: flex;
     flex-direction: column;
@@ -140,15 +130,7 @@ $SSP: "Source Sans Pro", sans-serif;
     padding: 0.5rem;
     background-color: #fefefe;
     border-radius: 0.6rem;
-
-    svg {
-      stroke: $main-dark-1;
-      cursor: pointer;
-
-      &:hover {
-        color: $main-dark-2;
-      }
-    }
+    user-select: none;
 
     span {
       color: $main-light-1;
@@ -210,39 +192,41 @@ $SSP: "Source Sans Pro", sans-serif;
     padding: 0.5rem;
     border-radius: 4px;
     background-color: rgba($main-dark-2, 0.05);
+    cursor: pointer;
 
-    span,
-    svg {
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    span {
       font-family: $SSP;
       font-size: 1.28rem;
       font-weight: 600;
-      cursor: pointer;
+    }
+  }
+  &__delete {
+    color: red;
+
+    &:hover {
+      background-color: rgba(red, 0.7);
+      & > span {
+        color: $white;
+      }
+      & > .delete {
+        color: $white;
+      }
     }
     .delete {
       color: red;
     }
   }
-  &__delete {
-    stroke: red;
-    &:hover {
-      background-color: rgba(red, 0.7);
-      & > span {
-        color: ($white);
-      }
-      & > svg {
-        stroke: ($white);
-      }
-    }
-  }
   &__edit {
-    stroke: $main-dark-1;
+    color: $main-dark-1;
     &:hover {
       background-color: $main-dark-1;
       & > span {
         color: ($white);
       }
-      & > svg {
-        stroke: ($white);
+      & > .edit {
+        color: ($white);
       }
     }
   }

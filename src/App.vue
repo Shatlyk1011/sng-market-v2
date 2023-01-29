@@ -26,6 +26,20 @@ $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
 /* 
+&__icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    color: $main-dark-1;
+
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    &:hover {
+      color: red;
+    }
+    &:active {
+      transform: translateY(3px) scale(0.9);
+    }
+  } */
+/* 
   FONTS: 
   font-family: 'Roboto Mono', monospace;
   font-family: 'Source Sans Pro', sans-serif;
