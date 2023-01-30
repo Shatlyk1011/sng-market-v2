@@ -38,10 +38,12 @@
           </button>
         </div>
         <Availability
+          :product="product.delivery"
           availableText="Доставка доступна"
           unavailableText="Доставка недоступна"
         />
         <Availability
+          :product="product.eco"
           availableText="ЭКО продукт"
           unavailableText="Продукт с добавками"
         />

@@ -53,18 +53,8 @@
         />
       </div>
 
-      <div class="input photo" ref="photoRef">
-        <label
-          class="label"
-          for="photo"
-          style="
-            font-weight: 500;
-            margin-bottom: 1rem;
-            display: inline-block;
-            position: relative;
-          "
-          >Выберите фото для аватарки</label
-        >
+      <div class="input relative" ref="photoRef">
+        <label class="label" for="photo">Выберите фото для аватарки</label>
         <input
           @input="handleInputPhoto"
           id="photo"
@@ -73,13 +63,12 @@
           required
         />
         <img
-          class="quote"
           @mouseenter="showQuote"
           @mouseleave="hideQuote"
           src="../../assets/icons/question.svg"
           alt="question"
         />
-        <p>Средство связи для потенциальных покупателей.</p>
+        <p>Мини аватарка используется например в коментариях</p>
         <div class="error" v-if="photoTypeError">{{ photoTypeError }}</div>
       </div>
       <div class="error" v-if="error">{{ error }}</div>
@@ -101,7 +90,6 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import useSignup from "@/composables/useSignup";
-import useStorageForUserPhoto from "@/composables/useStorageForUserPhoto";
 export default {
   name: "Signup",
 
@@ -194,26 +182,6 @@ $white: #fff;
 
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
-
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
 
 .signup {
   max-width: 55rem;
@@ -379,8 +347,15 @@ $SSP: "Source Sans Pro", sans-serif;
   }
 }
 
-.photo {
+.relative {
   position: relative;
+
+  label {
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: inline-block;
+    position: relative;
+  }
 
   img {
     position: absolute;

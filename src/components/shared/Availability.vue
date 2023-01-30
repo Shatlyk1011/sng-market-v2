@@ -1,10 +1,10 @@
 <template>
   <div class="availability">
-    <div class="available available--1" v-if="ava">
+    <div class="available available--1" v-if="product">
       <ion-icon class="icon" name="checkmark-done-outline"></ion-icon>
       <span> {{ availableText }}</span>
     </div>
-    <div class="unavailable unavailable--1" v-if="!ava">
+    <div class="unavailable unavailable--1" v-if="!product">
       <ion-icon class="icon" name="remove-circle-outline"></ion-icon>
       <span> {{ unavailableText }}</span>
     </div>
@@ -12,16 +12,11 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
 export default {
   name: "Availability",
-  props: ["availableText", "unavailableText"],
+  props: ["availableText", "unavailableText", "product"],
 
-  setup() {
-    const ava = ref(false);
-
-    return { ava };
-  },
+  setup() {},
 };
 </script>
 

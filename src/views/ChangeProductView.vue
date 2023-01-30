@@ -31,13 +31,57 @@
           <option value="Орехи">Орехи</option>
         </select>
       </div>
-      <label class="label">
-        <span>Выберите новое фото (png/jpeg)</span>
-        <input @input="handleImage" type="file" />
+
+      <div class="checkboxex">
+        <div class="checkboxex__wrapper">
+          <span>Доступна ли доставка?</span>
+          <div class="cntr">
+            <input
+              type="checkbox"
+              v-model="delivery"
+              id="cbx-1"
+              class="hidden-xs-up"
+            />
+            <label for="cbx-1" class="cbx"></label>
+          </div>
+        </div>
+        <div class="checkboxex__wrapper relative" ref="checkboxRef">
+          <span>Является ли ваш продукт ЭКО</span>
+          <ion-icon name="help-outline" class="icon"></ion-icon>
+          <div
+            @mouseenter="showQuote"
+            @mouseleave="hideQuote"
+            class="invis-box"
+          ></div>
+
+          <p>Экологически чистый продукт без химикатов и добавок</p>
+          <div class="cntr">
+            <input
+              type="checkbox"
+              v-model="eco"
+              id="cbx-2"
+              class="hidden-xs-up"
+            />
+            <label for="cbx-2" class="cbx"></label>
+          </div>
+        </div>
+      </div>
+
+      <label class="label label-file">
+        <input @input="handleImage" class="input" type="file" />
+        <div class="new-input">
+          <div class="file-btn">
+            <span>Выберите фото</span>
+            <div class="box"></div>
+          </div>
+          <div class="image-name" v-if="image">{{ image.name }}</div>
+          <div class="image-name" v-else>Название изображения</div>
+        </div>
         <div style="font-size: 1.28rem" class="error" v-if="imageTypeError">
           {{ imageTypeError }}
         </div>
       </label>
+
       <label class="label">
         <textarea
           v-model.trim="description"
@@ -73,10 +117,12 @@ export default {
 
   setup() {
     const productId = router.currentRoute.value.params.id;
-    console.log(typeof productId);
+
     const title = ref("");
     const price = ref("");
     const category = ref("");
+    const delivery = ref(null);
+    const eco = ref(null);
     const description = ref("");
     const image = ref(null);
     const imageTypeError = ref(null);
@@ -120,6 +166,8 @@ export default {
       price.value = document.value.price;
       category.value = document.value.category;
       description.value = document.value.description;
+      delivery.value = document.value.delivery;
+      eco.value = document.value.eco;
     };
     const updateProduct = async () => {
       isPending.value = true;
@@ -137,6 +185,8 @@ export default {
         category: category.value,
         description: description.value,
         filePath: filePath.value,
+        delivery: delivery.value,
+        eco: eco.value,
       });
       if (imageUrl.value) {
         await updateDoc({
@@ -154,6 +204,8 @@ export default {
       price,
       category,
       description,
+      delivery,
+      eco,
       document,
       handleImage,
       error,
@@ -228,6 +280,233 @@ $SSP: "Source Sans Pro", sans-serif;
       textarea {
         width: 100%;
         height: 12.8rem;
+      }
+    }
+
+    .checkboxex {
+      display: flex;
+      gap: 2.4rem;
+      flex-direction: row;
+      position: relative;
+      border: 1px solid rgba($main-dark-2, 0.2);
+      padding: 4px 1rem;
+      border-radius: 0.8rem;
+      &__wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        width: 100%;
+        align-items: center;
+
+        span {
+          font-size: 1.3rem;
+          font-weight: 600;
+          line-height: 1.35;
+        }
+        //checkbox
+        .cbx {
+          position: relative;
+          top: 1px;
+          width: 1.8rem;
+          height: 1.8rem;
+          border: 1px solid #c8ccd4;
+          border-radius: 4px;
+          vertical-align: middle;
+          transition: background 0.1s ease;
+          cursor: pointer;
+          display: block;
+          background-color: rgba($main-dark-2, 0.15);
+        }
+
+        .cbx:after {
+          content: "";
+          position: absolute;
+          top: 2px;
+          left: 6px;
+          width: 3px;
+          height: 8px;
+          opacity: 0;
+          transform: rotate(45deg) scale(0);
+          border-right: 2px solid #fff;
+          border-bottom: 2px solid #fff;
+          transition: all 0.3s ease;
+          transition-delay: 0.15s;
+        }
+
+        .lbl {
+          margin-left: 5px;
+          vertical-align: middle;
+          cursor: pointer;
+        }
+
+        #cbx-1:checked ~ .cbx,
+        #cbx-2:checked ~ .cbx {
+          border-color: transparent;
+          background: $main-light-2;
+          animation: jelly 0.6s ease;
+        }
+
+        #cbx-1:checked ~ .cbx:after,
+        #cbx-2:checked ~ .cbx:after {
+          opacity: 1;
+          transform: rotate(45deg) scale(1);
+        }
+
+        .cntr {
+          position: relative;
+        }
+
+        @keyframes jelly {
+          from {
+            transform: scale(1, 1);
+          }
+
+          30% {
+            transform: scale(1.25, 0.75);
+          }
+
+          40% {
+            transform: scale(0.75, 1.25);
+          }
+
+          50% {
+            transform: scale(1.15, 0.85);
+          }
+
+          65% {
+            transform: scale(0.95, 1.05);
+          }
+
+          75% {
+            transform: scale(1.05, 0.95);
+          }
+
+          to {
+            transform: scale(1, 1);
+          }
+        }
+
+        .hidden-xs-up {
+          display: none !important;
+        }
+      }
+      .relative {
+        position: relative;
+
+        .icon {
+          position: absolute;
+          bottom: 0;
+          right: 10rem;
+          z-index: 100;
+          color: $main-dark-1;
+        }
+
+        .invis-box {
+          position: absolute;
+          bottom: 0;
+          right: 10rem;
+          width: 1.6rem;
+          height: 1.6rem;
+          z-index: 1000;
+          cursor: help;
+          opacity: 0;
+        }
+
+        p {
+          position: absolute;
+          font-size: 1rem;
+          right: -13%;
+          bottom: -5.7rem;
+          width: 15rem;
+          text-align: center;
+          line-height: 1.2;
+          background-color: $main-dark-1;
+          border-radius: 1rem;
+          opacity: 0;
+          visibility: 0;
+          user-select: none;
+          transition: opacity 0.3s;
+          padding: 6px 1rem;
+          z-index: 1000;
+          color: $white;
+
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 10%;
+            margin-left: -4px;
+            border-width: 6px;
+            border-radius: 1px;
+            border-style: solid;
+            border-color: transparent;
+            border-top-color: $main-dark-1;
+            transform: rotate(180deg);
+          }
+        }
+
+        &.active {
+          p {
+            visibility: visible;
+            opacity: 1;
+            user-select: auto;
+          }
+        }
+      }
+    }
+
+    .label-file {
+      position: relative;
+      .input {
+        transform: scale(0);
+      }
+
+      .new-input {
+        display: inline-flex;
+        gap: 1rem;
+        justify-self: start;
+        align-items: center;
+        flex-basis: 20%;
+        cursor: pointer;
+        position: absolute;
+        width: 100%;
+        .file-btn {
+          position: relative;
+
+          .box {
+            width: 12rem;
+            height: 4rem;
+            border-radius: 4px;
+            background-color: $main-light-1;
+            z-index: 400;
+          }
+          .box:hover,
+          span:hover ~ .box {
+            background-color: $main-light-2;
+            box-shadow: 0 1rem 2rem rgba(#000, 0.07);
+          }
+          .box:active,
+          span:active ~ .box {
+            box-shadow: 0 1rem 2rem rgba(#000, 0.14);
+          }
+
+          span {
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 75%;
+            transform: translate(-50%, -50%);
+            z-index: 200;
+            user-select: none;
+          }
+        }
+
+        .image-name {
+          font-size: 1.28rem;
+          font-weight: 500;
+          color: $main-dark-2;
+        }
       }
     }
 
