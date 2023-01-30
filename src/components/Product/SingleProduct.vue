@@ -7,13 +7,13 @@
       <div class="product__description">
         <div style="display: flex; justify-content: space-between; gap: 1rem">
           <div class="product__name">{{ product.title }}</div>
-          <div style="display: flex; flex-direction: column; gap: 1rem">
+          <div class="product__active-btns">
             <router-link
               :to="{ name: 'ChangeProductView', params: { id: productId } }"
-              class="error"
+              class="btn active-btn"
               >Изменить</router-link
             >
-            <div class="error">Удалить</div>
+            <div class="btn active-btn" @click="handleDelete">Удалить</div>
           </div>
         </div>
         <div class="product__seller">
@@ -48,7 +48,7 @@
       </div>
     </div>
     <div v-else>Loading...</div>
-    <div v-if="error">{{ error }}</div>
+    <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
 
@@ -56,18 +56,27 @@
 import FiveStars from "@/components/shared/Five-stars.vue";
 import Availability from "@/components/shared/Availability.vue";
 
+import useDocument from "@/composables/useDocument";
+
 import router from "@/router";
 export default {
   name: "SingleProduct",
   components: { FiveStars, Availability },
-  props: ["error", "product", "id"],
+  props: ["error", "product"],
 
-  setup(props) {
-    console.log("props", props.id);
-
+  setup() {
     const productId = router.currentRoute.value.params.id;
 
-    return { productId };
+    const { deleteDoc, error } = useDocument("products", productId);
+
+    const handleDelete = async () => {
+      await deleteDoc();
+      if (!error.value) {
+        router.push("/market");
+      }
+    };
+
+    return { productId, handleDelete };
   },
 };
 </script>
@@ -82,26 +91,6 @@ $white: #fff;
 
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
-
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
 
 .product {
   margin: 0 auto;
@@ -147,6 +136,35 @@ $SSP: "Source Sans Pro", sans-serif;
     line-height: 1.2;
     font-family: $SSP;
     text-transform: capitalize;
+  }
+
+  &__active-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+
+    .active-btn {
+      font-family: $SSP;
+      padding: 4px 8px;
+      font-size: 1.28rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: $main-dark-1;
+      border-radius: 2px;
+      background-color: rgba($main-dark-1, 0.1);
+
+      &:hover {
+        background-color: rgba($main-dark-1, 0.25);
+      }
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  &__btn {
+    text-decoration: none;
   }
   &__seller {
     font-size: 1.24rem;

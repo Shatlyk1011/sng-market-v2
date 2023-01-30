@@ -1,6 +1,6 @@
 <template>
   <button class="btn disabled disabled__btn" v-if="!isPending" disabled>
-    <span class="curtom-loader"></span>
+    <span :class="`curtom-loader ${smallerSpin ? 'smallerSpin' : ''}`"></span>
     <span>{{ title }}</span>
   </button>
 </template>
@@ -8,7 +8,7 @@
 <script>
 export default {
   name: "DisabledButton",
-  props: ["title"],
+  props: ["title", "smallerSpin"],
 };
 </script>
 
@@ -45,6 +45,11 @@ $SSP: "Source Sans Pro", sans-serif;
       #000 0
     );
     animation: s3 1s infinite linear;
+  }
+
+  .smallerSpin {
+    width: 1.2rem;
+    height: 1.2rem;
   }
 
   @keyframes s3 {

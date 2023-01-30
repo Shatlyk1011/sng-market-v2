@@ -1,9 +1,9 @@
 <template>
   <div class="comment">
-    <div class="comment__likes">
+    <div class="comment__likes" ref="commentLikes">
       <ion-icon
         @click="handleLike(comment.likes, comment.likedUsers)"
-        :class="`comment__icon ${checkLikes ? 'comment__icon--red' : ''}`"
+        class="comment__icon"
         name="heart"
       ></ion-icon>
       <span title="Количество лайков">{{ comment.likes }}</span>
@@ -18,14 +18,14 @@
           <div class="comment__date">{{ comment.createdAt }}</div>
         </div>
         <div class="comment__actions">
-          <div class="comment__delete">
+          <div class="comment__delete" @click="handleDelete(comment.commentId)">
             <ion-icon
               class="comment__icon delete"
               name="trash-outline"
             ></ion-icon>
             <span class="delete">Удалить</span>
           </div>
-          <div class="comment__edit">
+          <div class="comment__edit" @click="change = !change">
             <ion-icon
               class="comment-icon edit"
               name="pencil-outline"
@@ -35,45 +35,68 @@
         </div>
       </div>
 
-      <div class="comment__text">
+      <div class="comment__text" v-if="!change">
         {{ comment.title }}
+      </div>
+      <div v-if="error">{{ error }}</div>
+      <div class="comment__change comment__text" v-if="change">
+        <textarea type="text" v-model.trim="title" />
+        <button v-if="!isPending" class="btn" @click="handleUpdate">
+          Сохранить
+        </button>
+        <DisabledButton
+          v-if="isPending"
+          title="Сохраняем"
+          smallerSpin="smallerSpin"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import DisabledButton from "../shared/DisabledButton.vue";
+
 import getUser from "@/composables/getUser";
 import useDocument from "@/composables/useDocument";
 
-import { ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 
 export default {
   name: "Comment",
   props: ["comment"],
+  components: { DisabledButton },
 
   setup(props) {
     const checkedLike = ref(null);
+    const newComment = ref(null);
+    const title = ref(null);
+    const change = ref(false);
+    const checkIfLiked = ref(null);
+    const commentLikes = ref(null);
 
     //composables
     const { user } = getUser();
-    const { updateDoc } = useDocument("comments", props.comment.commentId);
+    const { updateDoc, deleteDoc, error, isPending } = useDocument(
+      "comments",
+      props.comment.commentId
+    );
 
     const handleLike = async (currentLikes, likedUsers) => {
       const checkLike = likedUsers.find(
         (like) => like.userLikeId === user.value.uid
       );
       if (!checkLike || !likedUsers.length) {
+        //добавить лайк
         await updateDoc({
           likedUsers: [...likedUsers, { userLikeId: user.value.uid }],
-
           likes: currentLikes + 1,
         });
+        //убрать лайк
       } else if (checkLike) {
         const removeUserId = likedUsers.filter(
           (like) => like.userLikeId != user.value.uid
         );
-        console.log("removeUserId", removeUserId);
         await updateDoc({
           likedUsers: [...removeUserId],
           likes: currentLikes - 1,
@@ -81,7 +104,47 @@ export default {
       }
     };
 
-    return { handleLike, checkedLike };
+    const handleUpdate = async () => {
+      if (title.value.length !== 0)
+        await updateDoc({
+          title: title.value,
+        });
+      change.value = false;
+    };
+
+    const handleDelete = (commentId) => {
+      deleteDoc(commentId);
+    };
+
+    const checkLikedUsers = computed(() => {
+      if (commentLikes.value) {
+        props.comment.likedUsers.find((userId) => {
+          if (userId.userLikeId === user.value.uid) {
+            commentLikes.value.classList.add("colorRed");
+          } else {
+            commentLikes.value.classList.remove("colorRed");
+          }
+        });
+      }
+    });
+
+    watchEffect(checkLikedUsers);
+
+    // подставить имеющиеся значения
+    watchEffect(() => (title.value = props.comment.title));
+
+    return {
+      handleLike,
+      checkedLike,
+      error,
+      handleDelete,
+      isPending,
+      newComment,
+      title,
+      handleUpdate,
+      change,
+      commentLikes,
+    };
   },
 };
 </script>
@@ -103,23 +166,6 @@ $SSP: "Source Sans Pro", sans-serif;
   display: flex;
   gap: 2.4rem;
 
-  &__icon {
-    width: 1.4rem;
-    height: 1.4rem;
-    color: $main-dark-2;
-    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-    &:hover {
-      color: red;
-    }
-    &:active {
-      transform: translateY(3px) scale(0.9);
-    }
-
-    &--red {
-      color: red;
-    }
-  }
-
   &__likes {
     display: flex;
     flex-direction: column;
@@ -135,6 +181,35 @@ $SSP: "Source Sans Pro", sans-serif;
     span {
       color: $main-light-1;
       font-weight: 600;
+    }
+
+    .comment__icon {
+      width: 1.4rem;
+      height: 1.4rem;
+      color: $main-dark-2;
+      transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+      &:hover {
+        color: red;
+      }
+      &:active {
+        transform: translateY(3px) scale(0.9);
+      }
+
+      &--red {
+        color: red;
+      }
+    }
+
+    &.colorRed {
+      .comment__icon {
+        color: red;
+      }
+    }
+  }
+
+  &__likse.colorRed {
+    .comment__icon {
+      color: red;
     }
   }
 
@@ -235,6 +310,47 @@ $SSP: "Source Sans Pro", sans-serif;
     line-height: 1.5;
     font-size: 1.6rem;
     margin-top: 2rem;
+  }
+  &__change {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+
+    textarea {
+      border: 1px solid rgba($main-light-1, 0.4);
+      padding: 1rem 1.5rem;
+      border-radius: 0.6rem;
+      resize: none;
+      width: 100%;
+      max-height: 30%;
+
+      &:focus {
+        outline: none;
+        border: 1px solid rgba($main-light-1, 0.8);
+        border-radius: 0.4rem;
+        box-shadow: 0 2rem 4rem rgba(#000, 0.03);
+      }
+    }
+
+    button {
+      align-self: flex-start;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      color: $white;
+      background-color: $main-dark-1;
+      border-radius: 0.2rem;
+
+      transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+      &:hover {
+        background-color: $main-dark-2;
+      }
+      &:active {
+        transform: translateY(2px) scale(0.98);
+        box-shadow: 0 2rem 4rem rgba(#000, 0.03);
+      }
+    }
   }
 }
 </style>

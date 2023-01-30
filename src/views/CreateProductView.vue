@@ -1,6 +1,10 @@
 <template>
   <div class="create-product">
     <form class="form" @submit.prevent="createNewProduct">
+      <h2>
+        Опишите свой товар, и выставите на продажу в <br />
+        <span>СНГ маркет!</span>
+      </h2>
       <label class="label"
         ><span> Название товара </span>
         <input
@@ -27,6 +31,22 @@
           <option value="Овощи">Овощи</option>
           <option value="Орехи">Орехи</option>
         </select>
+      </div>
+      <div class="checkboxex">
+        <div class="checkboxex__wrapper">
+          <span>Доступна ли доставка?</span>
+          <div class="cntr">
+            <input type="checkbox" id="cbx-1" class="hidden-xs-up" />
+            <label for="cbx-1" class="cbx"></label>
+          </div>
+        </div>
+        <div class="checkboxex__wrapper">
+          <span>Является ли ваш продукт ЭКО?</span>
+          <div class="cntr">
+            <input type="checkbox" id="cbx-2" class="hidden-xs-up" />
+            <label for="cbx-2" class="cbx"></label>
+          </div>
+        </div>
       </div>
       <label class="label">
         <span>Выберите фото (png/jpeg)</span>
@@ -130,32 +150,6 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
-/* 
-  BORDER-RADIUS
-  0.8rem, .
-  1rem,
-  1.6rem,
- */
-
 .create-product {
   padding: 6.4rem 4.8rem;
   .form {
@@ -165,6 +159,19 @@ $SSP: "Source Sans Pro", sans-serif;
     flex-direction: column;
     gap: 2.4rem;
     line-height: 1.4;
+
+    h2 {
+      font-size: 2rem;
+      line-height: 1.4;
+      font-family: $SSP;
+      font-weight: 600;
+      color: $main-dark-1;
+      text-align: center;
+
+      span {
+        color: $main-light-1;
+      }
+    }
     .label {
       display: flex;
       flex-direction: column;
@@ -191,12 +198,114 @@ $SSP: "Source Sans Pro", sans-serif;
           color: rgba($main-dark-2, 0.6);
         }
       }
-
-      select {
-      }
       textarea {
         width: 100%;
         height: 12.8rem;
+      }
+    }
+    .checkboxex {
+      display: flex;
+      gap: 2.4rem;
+      flex-direction: row;
+      position: relative;
+      &__wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        width: 100%;
+        align-items: center;
+
+        span {
+          font-size: 1.4rem;
+          font-weight: 600;
+          line-height: 1.35;
+        }
+        //checkbox
+        .cbx {
+          position: relative;
+          top: 1px;
+          width: 1.8rem;
+          height: 1.8rem;
+          border: 1px solid #c8ccd4;
+          border-radius: 4px;
+          vertical-align: middle;
+          transition: background 0.1s ease;
+          cursor: pointer;
+          display: block;
+          background-color: rgba($main-dark-2, 0.15);
+        }
+
+        .cbx:after {
+          content: "";
+          position: absolute;
+          top: 2px;
+          left: 6px;
+          width: 3px;
+          height: 8px;
+          opacity: 0;
+          transform: rotate(45deg) scale(0);
+          border-right: 2px solid #fff;
+          border-bottom: 2px solid #fff;
+          transition: all 0.3s ease;
+          transition-delay: 0.15s;
+        }
+
+        .lbl {
+          margin-left: 5px;
+          vertical-align: middle;
+          cursor: pointer;
+        }
+
+        #cbx-1:checked ~ .cbx,
+        #cbx-2:checked ~ .cbx {
+          border-color: transparent;
+          background: $main-light-2;
+          animation: jelly 0.6s ease;
+        }
+
+        #cbx-1:checked ~ .cbx:after,
+        #cbx-2:checked ~ .cbx:after {
+          opacity: 1;
+          transform: rotate(45deg) scale(1);
+        }
+
+        .cntr {
+          position: relative;
+        }
+
+        @keyframes jelly {
+          from {
+            transform: scale(1, 1);
+          }
+
+          30% {
+            transform: scale(1.25, 0.75);
+          }
+
+          40% {
+            transform: scale(0.75, 1.25);
+          }
+
+          50% {
+            transform: scale(1.15, 0.85);
+          }
+
+          65% {
+            transform: scale(0.95, 1.05);
+          }
+
+          75% {
+            transform: scale(1.05, 0.95);
+          }
+
+          to {
+            transform: scale(1, 1);
+          }
+        }
+
+        .hidden-xs-up {
+          display: none !important;
+        }
       }
     }
     &__btn {

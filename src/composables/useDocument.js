@@ -17,7 +17,7 @@ const useDocument = (collection, id) => {
       return res;
     } catch (err) {
       isPending.value = false;
-      error.value = "Could not delete the document";
+      error.value = `Ошибка: ${err.message}`;
     }
   };
 

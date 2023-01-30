@@ -4,10 +4,12 @@
       <div class="input-container">
         <img :src="user && user.photoURL" alt="hm" />
         <textarea
+          @keyup.prevent.enter="handleComment"
           v-model.trim="commentItself"
-          @keypress.prevent.enter="handleComment"
           placeholder="Добавить комментарий..."
-        ></textarea>
+          maxlength="100"
+          ref="textarea"
+        />
         <button
           v-if="!isPending"
           @click="handleComment"
@@ -17,11 +19,13 @@
         </button>
         <DisabledButton v-if="isPending" title="Загружаем" />
       </div>
-      <Comment
-        v-for="comment in formatDate"
-        :key="comment.commentId"
-        :comment="comment"
-      />
+      <div class="comment-container" ref="commentContainer">
+        <Comment
+          v-for="comment in formatDate"
+          :key="comment.commentId"
+          :comment="comment"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +35,7 @@ import Comment from "./Comment.vue";
 import DisabledButton from "../shared/DisabledButton.vue";
 
 import router from "@/router";
-import { computed, ref } from "@vue/reactivity";
+import { computed, ref } from "vue";
 import { timestamp, projectFirestore } from "@/firebase/config";
 
 import getUser from "@/composables/getUser";
@@ -50,6 +54,9 @@ export default {
     const commentItself = ref("");
     const commentId = ref("");
     const productId = router.currentRoute.value.params.id;
+    const textarea = ref(null);
+
+    const commentContainer = ref(null);
     //composables
     const { user } = getUser();
     const { products: comments, error: getError } = getCollection("comments", [
@@ -59,6 +66,7 @@ export default {
     ]);
     const { addDoc, error: useError, isPending } = useCollection("comments");
 
+    //форматирование времени
     const date = new Date();
     const formatDate = computed(() => {
       if (comments.value) {
@@ -71,28 +79,30 @@ export default {
     });
     // создать новый комментарий
     const handleComment = async () => {
-      const newComment = {
-        author: user.value.displayName,
-        userImage: user.value.photoURL,
-        title: commentItself.value,
-        createdAt: timestamp(),
-        docId: productId,
-        commentId: "",
-        likes: 0,
-        likedUsers: [],
-      };
+      if (commentItself.value.length !== 0) {
+        textarea.value.setAttribute("disabled", "");
+        const newComment = {
+          author: user.value.displayName,
+          userImage: user.value.photoURL,
+          title: commentItself.value,
+          createdAt: timestamp(),
+          docId: productId,
+          commentId: "",
+          likes: 0,
+          likedUsers: [],
+        };
 
-      await addDoc(newComment).then((doc) => {
-        if (commentItself.value !== "" && " ") {
+        await addDoc(newComment).then((doc) => {
           commentId.value = doc.id;
-          console.log("commentID", doc.id);
           projectFirestore
             .collection("comments")
             .doc(commentId.value)
             .update({ commentId: commentId.value });
-        }
-      });
-      commentItself.value = null;
+          commentItself.value = null;
+        });
+      }
+      textarea.value.removeAttribute("disabled");
+      commentContainer.value.scrollTop = !commentContainer.value.scrollHeight;
     };
 
     return {
@@ -103,6 +113,8 @@ export default {
       commentItself,
       isPending,
       user,
+      commentContainer,
+      textarea,
     };
   },
 };
@@ -159,11 +171,34 @@ $SSP: "Source Sans Pro", sans-serif;
         }
       }
     }
+    .comment-container {
+      max-height: 50rem;
+      overflow-y: scroll;
+      width: 100%;
+
+      &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 6px;
+        background-color: #f3f3f3;
+      }
+
+      &::-webkit-scrollbar {
+        width: 1rem;
+        background-color: $main-light-1;
+        border-radius: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: $main-light-1;
+      }
+    }
     button {
       align-self: flex-start;
     }
     .comment-btn {
-      padding: 1.2rem 2.4rem;
+      padding: 1rem 1.5rem;
       font-size: 1.6rem;
       font-weight: 600;
       font-family: $SSP;
