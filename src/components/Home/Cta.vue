@@ -5,7 +5,7 @@
         <div class="cta__heading">Мы предлагаем сотрудничество</div>
         <div class="cta__subtitle">
           Для долгосрочного сотрудничества пожалуйста оставьте свои данные. Мы с
-          вами свяжемся в лижайшее время!я
+          вами свяжемся в лижайшее время!
         </div>
 
         <div class="form">
@@ -31,12 +31,9 @@
           <button class="btn">Отправить заявку!</button>
         </div>
       </div>
-      <img
-        class="img"
-        src="https://images.unsplash.com/photo-1602020277972-99978250c8bd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-        alt=""
-      />
+      <img class="img" src="../../assets/cta-bg.jpg" alt="" />
     </div>
+    <div class="bg"></div>
   </div>
 </template>
 
@@ -55,27 +52,9 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
 .call-to-action {
-  padding: 12rem 4.8rem;
+  padding: 4.8rem;
+  position: relative;
   .container {
     margin: 0 auto;
     border-radius: 10px;
@@ -86,6 +65,7 @@ $SSP: "Source Sans Pro", sans-serif;
     .cta {
       width: 100%;
       padding: 2.4rem 3.2rem;
+      height: 100%;
       &__heading {
         color: $main-light-1;
         font-size: 3.125rem;
@@ -104,7 +84,7 @@ $SSP: "Source Sans Pro", sans-serif;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1.6rem;
-        margin-top: 3.2rem;
+        margin-top: 4.8rem;
 
         div {
           display: flex;
@@ -163,11 +143,32 @@ $SSP: "Source Sans Pro", sans-serif;
       }
     }
     .img {
-      width: 23%;
+      width: 30%;
 
       filter: brightness(0.8);
       background: linear-gradient();
     }
+  }
+
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-color: #ffffff;
+    opacity: 0.05;
+    background: repeating-linear-gradient(
+      -45deg,
+      $main-dark-2,
+      $main-dark-2 8px,
+      #ffffff 8px,
+      #ffffff 40px
+    );
+    z-index: -1;
   }
 }
 </style>

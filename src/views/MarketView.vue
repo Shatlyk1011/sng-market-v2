@@ -1,6 +1,6 @@
 <template>
   <div class="market">
-    <div class="market__container">
+    <div class="market__container" v-if="products">
       <div class="market__quantity">
         <div class="pages">
           Текущая страница <span>{{ currentPage }}</span> из
@@ -8,9 +8,9 @@
         </div>
         <div>
           Показано
-          <span>{{ displayedProducts ? displayedProducts.length : null }}</span>
+          <span>{{ displayedProducts.length }}</span>
           из
-          <span>{{ products ? products.length : null }}</span>
+          <span>{{ products.length }}</span>
         </div>
       </div>
 
@@ -33,13 +33,13 @@
           >
           <router-link
             class="pages"
-            v-if="nextPage"
             :to="{ name: 'MarketView', query: { page: nextPage } }"
             >Вперед</router-link
           >
         </div>
       </div>
     </div>
+    <LoadingPage v-else />
   </div>
   <Footer />
 </template>
@@ -47,42 +47,49 @@
 <script>
 import ProductItem from "@/components/Market/Product-Item.vue";
 import Footer from "@/components/Home/Footer.vue";
+import LoadingPage from "@/components/shared/LoadingPage.vue";
 
 import getCollection from "@/composables/getCollection";
 import useCurrentPage from "@/composables/useCurrentPage";
 import usePrevAndNextPages from "@/composables/usePrevAndNextPages";
 
-import { ref, computed } from "vue";
+import { computed, watch } from "vue";
+import { useRoute } from "vue-router";
 export default {
   name: "Market",
-  components: { ProductItem, Footer },
+  components: { ProductItem, Footer, LoadingPage },
 
   setup() {
     const { products, error } = getCollection("products");
 
-    const search = ref("");
+    const route = useRoute();
 
-    const currentPage = useCurrentPage();
-
-    console.log("currentPage", currentPage.value);
-
-    const maxPage = computed(() => {
-      console.log("maxPage", maxPage.value);
-      return Math.ceil(products.value ? products.value.length : 1 / 6);
+    const currentPage = computed(() => {
+      const pageString = route.query.page || "1";
+      return Number.parseInt(pageString);
     });
 
-    const { previousPage, nextPage } = usePrevAndNextPages(
-      currentPage.value,
-      maxPage
-    );
+    const previousPage = computed(() => {
+      const prevPage = currentPage.value - 1;
+      const firstPage = 1;
+      return prevPage >= firstPage ? prevPage : null;
+    });
+
+    const maxPage = computed(() => {
+      return Math.ceil(products.value.length / 12);
+    });
+
+    const nextPage = computed(() => {
+      const nextPage = currentPage.value + 1;
+      // const maxPage = Math.ceil(products.value.length / 12);
+      return nextPage >= maxPage.value ? nextPage : null;
+    });
 
     const displayedProducts = computed(() => {
       const pageNumber = currentPage.value;
-      const firstJobIndex = (pageNumber - 1) * 6;
-      const lastJobIndex = pageNumber * 6;
-      return products.value
-        ? products.value.slice(firstJobIndex, lastJobIndex)
-        : null;
+      const firstJobIndex = (pageNumber - 1) * 12;
+      const lastJobIndex = pageNumber * 12;
+      return products.value.slice(firstJobIndex, lastJobIndex);
     });
 
     return {
@@ -93,7 +100,6 @@ export default {
       previousPage,
       nextPage,
       maxPage,
-      search,
     };
   },
 };
@@ -110,25 +116,6 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
 .market {
   max-width: 160rem;
   padding: 10rem;

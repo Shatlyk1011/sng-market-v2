@@ -74,31 +74,9 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
-
 .hero {
-  // height: 100vh;
-
   .container {
-    min-height: 75rem;
+    min-height: 70rem;
     padding: 0 6rem;
     width: 100%;
     height: 100%;

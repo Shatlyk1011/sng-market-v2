@@ -26,16 +26,17 @@ $SSP: "Source Sans Pro", sans-serif;
 
 .listItem {
   padding: 0 1rem;
-  .icon {
-  }
+
   .title {
     font-family: $SSP;
     font-weight: 600;
-    line-height: 1.4;
-    color: $main-dark-2;
+    color: $main-dark-1;
+    line-height: 1.2;
+    font-size: 2.5rem;
   }
   .description {
-    margin-top: 1.6rem;
+    margin-top: 2rem;
+    font-weight: 500;
     font-family: $roboto;
     font-size: 1.28rem;
     line-height: 1.5;

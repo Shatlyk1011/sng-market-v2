@@ -2,7 +2,6 @@
   <div class="reasons">
     <div class="container">
       <h2 class="title">Почему мы? Спросите вы!</h2>
-      <p class="subtitle">Потому что - ответим мы! :D</p>
 
       <div class="grid">
         <List title="Каждый день свежий привоз">
@@ -10,7 +9,7 @@
           лучшими микробиологами стран СНГ!
         </List>
 
-        <List title="У нас работают лучшие логисты">
+        <List title="У нас лучшие логисты">
           Одна из наш прерогатив - это доставлять товары в назначенное
           время.Интересный факт: 19 из 20 доставок осуществляется в обговоренный
           срок вплоть до минуты!
@@ -21,6 +20,7 @@
           компания владеет 14+ языком(большинство из них языки стран СНГ)
         </List>
       </div>
+      <div class="bg"></div>
     </div>
   </div>
 </template>
@@ -44,41 +44,19 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
 .reasons {
-  margin-top: 4.8rem;
-  padding: 0 6.4rem;
+  position: relative;
   .container {
     text-align: center;
-    padding: 0 12rem;
+    padding: 9.6rem 6.4rem;
+    z-index: 10;
+    opacity: 1;
     .title {
-      font-size: 3.9rem;
+      font-size: 4.8rem;
       font-weight: 600;
       font-family: $SSP;
-      color: $main-dark-2;
-    }
-
-    .subtitle {
-      font-size: 1.28rem;
-      letter-spacing: -1px; //??
+      color: $main-light-1;
+      line-height: 1.2;
     }
 
     .grid {
@@ -87,6 +65,26 @@ $SSP: "Source Sans Pro", sans-serif;
       gap: 1.6rem;
       margin-top: 3.2rem;
     }
+  }
+
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-color: #ffffff;
+    opacity: 0.05;
+    background: repeating-linear-gradient(
+      -45deg,
+      $main-dark-2,
+      $main-dark-2 8px,
+      #ffffff 8px,
+      #ffffff 40px
+    );
   }
 }
 </style>

@@ -96,13 +96,6 @@ $SSP: "Source Sans Pro", sans-serif;
       }
     }
 
-    &__rights {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #ababab;
-      line-height: 1.4;
-    }
-
     &__icons {
       display: flex;
       list-style: none;
@@ -119,6 +112,12 @@ $SSP: "Source Sans Pro", sans-serif;
         transform: translateY(-2px) scale(1.1);
         color: #fba820;
       }
+    }
+    &__rights {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: $main-dark-2;
+      line-height: 1.4;
     }
   }
 
@@ -144,13 +143,13 @@ $SSP: "Source Sans Pro", sans-serif;
     & a:link,
     a:visited {
       text-decoration: none;
-      color: #fba820;
+      color: $main-dark-2;
       border-bottom: 1px solid transparent;
       transition: all 0.2s;
       letter-spacing: 0.4px;
 
       &:hover {
-        border-bottom: 1px solid #fba820;
+        border-bottom: 1px solid $main-dark-2;
       }
     }
   }
@@ -186,13 +185,16 @@ $SSP: "Source Sans Pro", sans-serif;
   .icon {
     height: 2rem;
     width: 2rem;
-    color: #fff;
+    color: $main-dark-1;
 
     transition: all 0.2s;
 
     &:hover {
       transform: translateY(-2px) scale(1.1);
-      color: #fba820;
+      color: $main-dark-2;
+    }
+    &:active {
+      transform: translateY(0) scale(0.98);
     }
   }
 }

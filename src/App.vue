@@ -26,20 +26,6 @@ $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
 /* 
-&__icon {
-    width: 1.8rem;
-    height: 1.8rem;
-    color: $main-dark-1;
-
-    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-    &:hover {
-      color: red;
-    }
-    &:active {
-      transform: translateY(3px) scale(0.9);
-    }
-  } */
-/* 
   FONTS: 
   font-family: 'Roboto Mono', monospace;
   font-family: 'Source Sans Pro', sans-serif;
@@ -80,14 +66,11 @@ $SSP: "Source Sans Pro", sans-serif;
 html {
   font-size: 62.5%;
   line-height: 1.5;
-  // font-size: 1.6rem;
 }
 
 body {
   font-family: $roboto;
   font-size: 1.6rem;
-  background-color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23455445' fill-opacity='0.08' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 }
 
 .btn {
