@@ -4,7 +4,7 @@
       <div class="market__quantity">
         <div class="pages">
           Текущая страница <span>{{ currentPage }}</span> из
-          <span>{{ maxPage }}</span>
+          <span>{{ maxPages }}</span>
         </div>
         <div>
           Показано
@@ -32,6 +32,7 @@
             Назад</router-link
           >
           <router-link
+            v-if="nextPage"
             class="pages"
             :to="{ name: 'MarketView', query: { page: nextPage } }"
             >Вперед</router-link
@@ -50,8 +51,6 @@ import Footer from "@/components/Home/Footer.vue";
 import LoadingPage from "@/components/shared/LoadingPage.vue";
 
 import getCollection from "@/composables/getCollection";
-import useCurrentPage from "@/composables/useCurrentPage";
-import usePrevAndNextPages from "@/composables/usePrevAndNextPages";
 
 import { computed, watch } from "vue";
 import { useRoute } from "vue-router";
@@ -75,13 +74,13 @@ export default {
       return prevPage >= firstPage ? prevPage : null;
     });
 
-    const maxPage = computed(() => {
+    const maxPages = computed(() => {
       return Math.ceil(products.value.length / 12);
     });
 
     const nextPage = computed(() => {
       const nextPage = currentPage.value + 1;
-      // const maxPage = Math.ceil(products.value.length / 12);
+      const maxPage = Math.ceil(products.value.length / 12);
       return nextPage >= maxPage.value ? nextPage : null;
     });
 
@@ -99,7 +98,7 @@ export default {
       currentPage,
       previousPage,
       nextPage,
-      maxPage,
+      maxPages,
     };
   },
 };
@@ -117,9 +116,13 @@ $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
 .market {
-  max-width: 160rem;
+  max-width: 144rem;
   padding: 10rem;
   margin: 0 auto;
+  @media (max-width: 87em) {
+    padding: 8rem 4rem;
+  }
+
   &__container {
   }
   &__quantity {
@@ -131,16 +134,20 @@ $SSP: "Source Sans Pro", sans-serif;
       color: $main-light-1;
       font-weight: 600;
     }
-
-    & .pages {
-    }
   }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 3.2rem;
+    column-gap: 3.2rem;
+    row-gap: 1.6rem;
     margin-top: 2.4rem;
+    @media (max-width: 78em) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 47em) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .pagination {

@@ -9,6 +9,7 @@ const MyProducts = () => import("@/views/MyProductsView.vue");
 const ChangeProductView = () => import("@/views/ChangeProductView.vue");
 
 import { projectAuth } from "@/firebase/config";
+
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser;
   if (!user) {
@@ -43,7 +44,7 @@ const routes = [
     path: "/my-products",
     name: "MyProductsView",
     component: MyProducts,
-    // beforeEnter: requireAuth,
+    beforeEnter: requireAuth,
   },
   {
     path: "/product/:id",

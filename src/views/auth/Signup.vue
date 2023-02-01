@@ -68,7 +68,7 @@
           src="../../assets/icons/question.svg"
           alt="question"
         />
-        <p>Мини аватарка используется например в коментариях</p>
+        <p>Ваша аватарка будет используется в коментариях</p>
         <div class="error" v-if="photoTypeError">{{ photoTypeError }}</div>
       </div>
       <div class="error" v-if="error">{{ error }}</div>
@@ -78,6 +78,7 @@
         <label for="checkbox">Я принимаю все </label><span>условия</span>
       </div>
       <button class="btn form__btn">Зарегистрироватсья</button>
+      <disabled-button smallerBorder="smallerBorder" title="Регистрация" />
     </form>
     <h4>
       Есть аккаунт?
@@ -87,11 +88,14 @@
 </template>
 
 <script>
+import DisabledButton from "@/components/shared/DisabledButton.vue";
+
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import useSignup from "@/composables/useSignup";
 export default {
   name: "Signup",
+  components: { DisabledButton },
 
   setup() {
     const router = useRouter();
@@ -186,7 +190,7 @@ $SSP: "Source Sans Pro", sans-serif;
 .signup {
   max-width: 55rem;
   margin: 0 auto;
-  padding: 6.4rem 3.2rem;
+  padding: 6.4rem 2.4rem;
   .form {
     padding: 4.8rem;
     border: 1px solid rgba($main-light-1, 0.4);
@@ -200,6 +204,10 @@ $SSP: "Source Sans Pro", sans-serif;
     gap: 2.4rem;
     margin-top: 2.4rem;
 
+    @media (max-width: 47em) {
+      padding: 3.2rem 2.4rem;
+      margin-top: 1.6rem;
+    }
     &__heading {
       font-family: $SSP;
       text-align: center;
@@ -369,7 +377,7 @@ $SSP: "Source Sans Pro", sans-serif;
   p {
     position: absolute;
     font-size: 1rem;
-    right: -14.5%;
+    right: -5.5rem;
     top: -6rem;
     width: 15rem;
     text-align: center;

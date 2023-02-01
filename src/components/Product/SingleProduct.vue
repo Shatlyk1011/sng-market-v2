@@ -105,8 +105,13 @@ $SSP: "Source Sans Pro", sans-serif;
     height: 100%;
     max-width: 120rem;
     margin: 0 auto;
+    @media (max-width: 47em) {
+      grid-template-columns: 1fr;
+      gap: 2.4rem;
+    }
     .image {
       position: relative;
+      min-height: 50rem;
       width: 100%;
       height: 100%;
       background-color: #f1f1f1;
@@ -202,6 +207,9 @@ $SSP: "Source Sans Pro", sans-serif;
     font-size: 3.9rem;
     font-weight: 700;
     font-family: $SSP;
+    @media (max-width: 47em) {
+      font-size: 3.1rem;
+    }
   }
   &__text {
     font-size: 1.6rem;

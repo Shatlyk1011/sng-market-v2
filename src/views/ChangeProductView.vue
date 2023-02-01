@@ -261,7 +261,7 @@ $SSP: "Source Sans Pro", sans-serif;
       input,
       select,
       textarea {
-        border: 1px solid rgba($main-dark-2, 0.2);
+        border: 0.1rem solid rgba($main-dark-2, 0.2);
         border-radius: 1rem;
         outline: none;
         padding: 1rem 1.4rem;
@@ -288,8 +288,8 @@ $SSP: "Source Sans Pro", sans-serif;
       gap: 2.4rem;
       flex-direction: row;
       position: relative;
-      border: 1px solid rgba($main-dark-2, 0.2);
-      padding: 4px 1rem;
+      border: 0.1rem solid rgba($main-dark-2, 0.2);
+      padding: 0.4rem 1rem;
       border-radius: 0.8rem;
       &__wrapper {
         display: flex;
@@ -306,11 +306,11 @@ $SSP: "Source Sans Pro", sans-serif;
         //checkbox
         .cbx {
           position: relative;
-          top: 1px;
+          top: 0.1rem;
           width: 1.8rem;
           height: 1.8rem;
-          border: 1px solid #c8ccd4;
-          border-radius: 4px;
+          border: 0.1rem solid #c8ccd4;
+          border-radius: 0.4rem;
           vertical-align: middle;
           transition: background 0.1s ease;
           cursor: pointer;
@@ -321,20 +321,20 @@ $SSP: "Source Sans Pro", sans-serif;
         .cbx:after {
           content: "";
           position: absolute;
-          top: 2px;
-          left: 6px;
-          width: 3px;
-          height: 8px;
+          top: 0.2rem;
+          left: 0.6rem;
+          width: 0.3rem;
+          height: 0.8rem;
           opacity: 0;
           transform: rotate(45deg) scale(0);
-          border-right: 2px solid #fff;
-          border-bottom: 2px solid #fff;
+          border-right: 0.2rem solid #fff;
+          border-bottom: 0.2rem solid #fff;
           transition: all 0.3s ease;
           transition-delay: 0.15s;
         }
 
         .lbl {
-          margin-left: 5px;
+          margin-left: 0.5rem;
           vertical-align: middle;
           cursor: pointer;
         }
@@ -426,7 +426,7 @@ $SSP: "Source Sans Pro", sans-serif;
           visibility: 0;
           user-select: none;
           transition: opacity 0.3s;
-          padding: 6px 1rem;
+          padding: 0.6rem 1rem;
           z-index: 1000;
           color: $white;
 
@@ -435,9 +435,9 @@ $SSP: "Source Sans Pro", sans-serif;
             position: absolute;
             bottom: 100%;
             left: 10%;
-            margin-left: -4px;
-            border-width: 6px;
-            border-radius: 1px;
+            margin-left: -0.4rem;
+            border-width: 0.6rem;
+            border-radius: 0.1rem;
             border-style: solid;
             border-color: transparent;
             border-top-color: $main-dark-1;
@@ -476,7 +476,7 @@ $SSP: "Source Sans Pro", sans-serif;
           .box {
             width: 12rem;
             height: 4rem;
-            border-radius: 4px;
+            border-radius: 0.4rem;
             background-color: $main-light-1;
             z-index: 400;
           }

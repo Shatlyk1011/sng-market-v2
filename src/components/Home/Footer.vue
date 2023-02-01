@@ -55,29 +55,24 @@ $SSP: "Source Sans Pro", sans-serif;
 .footer-container {
   background-color: $main-light-1;
   .footer {
-    margin: 0 25rem;
+    margin: 0 15rem;
     color: #fff;
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 5rem 10rem;
 
-    @media (max-width: 1250px) {
-      & {
-        margin: 0 15rem;
-        padding: 3rem 5rem;
-      }
+    @media (max-width: 68em) {
+      margin: 0 15rem;
+      padding: 3rem 5rem;
     }
-    @media (max-width: 900px) {
-      & {
-        grid-template-columns: 1fr;
-        gap: 1.6rem;
-        margin: 0 5rem;
-      }
+    @media (max-width: 56em) {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+      margin: 0 5rem;
     }
-    @media (max-width: 360px) {
-      & {
-        margin: 0;
-      }
+    @media (max-width: 47em) {
+      margin: 0;
+      padding: 3.2rem;
     }
     &__description {
       display: flex;
@@ -88,11 +83,9 @@ $SSP: "Source Sans Pro", sans-serif;
       display: flex;
       flex-direction: column;
 
-      @media (max-width: 900px) {
-        & {
-          text-align: center;
-          justify-self: center;
-        }
+      @media (max-width: 56em) {
+        text-align: center;
+        justify-self: center;
       }
     }
 
@@ -128,11 +121,9 @@ $SSP: "Source Sans Pro", sans-serif;
     align-items: center;
     gap: 1.4rem;
     align-items: flex-start;
-    @media (max-width: 900px) {
-      & {
-        text-align: center;
-        align-items: center;
-      }
+    @media (max-width: 56em) {
+      text-align: center;
+      align-items: center;
     }
 
     & span {
@@ -164,7 +155,7 @@ $SSP: "Source Sans Pro", sans-serif;
   }
 
   .social-links {
-    @media (max-width: 900px) {
+    @media (max-width: 56em) {
       & {
         margin: 0 auto;
       }
@@ -175,10 +166,8 @@ $SSP: "Source Sans Pro", sans-serif;
     gap: 3.6rem;
     list-style: none;
 
-    @media (max-width: 900px) {
-      & {
-        justify-content: center;
-      }
+    @media (max-width: 56em) {
+      justify-content: center;
     }
   }
 

@@ -90,12 +90,15 @@
           required
         ></textarea>
       </label>
-      <button class="btn form__btn">Создать товар</button>
+      <button v-if="!isPending" class="btn form__btn">Создать товар</button>
+      <DisabledButton v-if="isPending" title="Создаем..." />
     </form>
   </div>
 </template>
 
 <script>
+import DisabledButton from "@/components/shared/DisabledButton.vue";
+
 import getUser from "@/composables/getUser";
 import useCollection from "./../composables/useCollection";
 import useStorage from "./../composables/useStorage";
@@ -105,6 +108,8 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 export default {
   name: "CreateProductView",
+
+  components: { DisabledButton },
 
   setup() {
     const { user } = getUser();
@@ -154,7 +159,9 @@ export default {
         createdAt: timestamp(),
       });
       isPending.value = false;
-      if (!error.value) {
+      if (error.value) {
+        isPending.value = false;
+      } else {
         router.push({ name: "MarketView" });
       }
     };
@@ -277,11 +284,11 @@ $SSP: "Source Sans Pro", sans-serif;
         //checkbox
         .cbx {
           position: relative;
-          top: 1px;
+          top: 0.1rem;
           width: 1.8rem;
           height: 1.8rem;
-          border: 1px solid #c8ccd4;
-          border-radius: 4px;
+          border: 0.1rem solid #c8ccd4;
+          border-radius: 0.4rem;
           vertical-align: middle;
           transition: background 0.1s ease;
           cursor: pointer;
@@ -292,20 +299,20 @@ $SSP: "Source Sans Pro", sans-serif;
         .cbx:after {
           content: "";
           position: absolute;
-          top: 2px;
-          left: 6px;
-          width: 3px;
-          height: 8px;
+          top: 0.2rem;
+          left: 0.6rem;
+          width: 0.3rem;
+          height: 0.8rem;
           opacity: 0;
           transform: rotate(45deg) scale(0);
-          border-right: 2px solid #fff;
-          border-bottom: 2px solid #fff;
+          border-right: 0.2rem solid #fff;
+          border-bottom: 0.2rem solid #fff;
           transition: all 0.3s ease;
           transition-delay: 0.15s;
         }
 
         .lbl {
-          margin-left: 5px;
+          margin-left: 0.5rem;
           vertical-align: middle;
           cursor: pointer;
         }

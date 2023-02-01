@@ -44,7 +44,11 @@
       <div class="error" v-if="error">{{ error }}</div>
 
       <button v-if="!isPending" class="btn form__btn">Войти</button>
-      <button v-if="isPending" class="btn form__btn" disabled>Войти</button>
+      <Disabled-button
+        smallerBorder="smallerBorder"
+        v-if="isPending"
+        title="Заходим"
+      />
     </form>
     <h4>
       Нету аккаунта?
@@ -56,15 +60,15 @@
 </template>
 
 <script>
+import DisabledButton from "@/components/shared/DisabledButton.vue";
+
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import useSignin from "@/composables/useSignin";
 export default {
   name: "Signin",
-  components: {},
+  components: { DisabledButton },
 
-  /*       
-        } */
   setup() {
     const router = useRouter();
     const email = ref("");
@@ -118,30 +122,10 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
-
 .signup {
   max-width: 55rem;
   margin: 0 auto;
-  padding: 6.4rem 3.2rem;
+  padding: 6.4rem 2.4rem;
   .form {
     padding: 4.8rem;
     border: 1px solid rgba($main-light-1, 0.4);
@@ -155,6 +139,9 @@ $SSP: "Source Sans Pro", sans-serif;
     flex-direction: column;
     gap: 3.2rem;
     margin-top: 2.4rem;
+    @media (max-width: 47em) {
+      padding: 3.2rem 2.4rem;
+    }
 
     .input-container.relative {
       position: relative;
@@ -239,6 +226,9 @@ $SSP: "Source Sans Pro", sans-serif;
 
       &:hover {
         background-color: $main-light-2;
+      }
+      &:active {
+        transform: translateY(4px) scale(0.96);
       }
     }
   }

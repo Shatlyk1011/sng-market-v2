@@ -56,6 +56,15 @@ $SSP: "Source Sans Pro", sans-serif;
   transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
  */
 
+/* 
+  @media(min-width: 100em)
+  @media(max-width: 87em)
+  @media(max-width: 68em)
+  @media(max-width: 57em)
+  @media(max-width: 47em)
+  @media(max-width: 31em)
+ */
+
 * {
   padding: 0;
   margin: 0;
@@ -66,6 +75,12 @@ $SSP: "Source Sans Pro", sans-serif;
 html {
   font-size: 62.5%;
   line-height: 1.5;
+  @media (min-width: 100em) {
+    font-size: 75%;
+  }
+  @media (max-width: 56em) {
+    font-size: 50%;
+  }
 }
 
 body {

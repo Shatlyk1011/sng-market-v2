@@ -44,6 +44,16 @@ $SSP: "Source Sans Pro", sans-serif;
         min-height: 100rem;
       }
 
+      @media (max-width: 68em) {
+        min-height: 70rem;
+      }
+      @media (max-width: 56em) {
+        min-height: 60rem;
+      }
+      @media (max-width: 47em) {
+        min-height: 55rem;
+      }
+
       &--1 {
         position: relative;
         background: linear-gradient(
@@ -75,20 +85,46 @@ $SSP: "Source Sans Pro", sans-serif;
       left: 2.8rem;
       right: 2.8rem;
 
+      @media (max-width: 47em) {
+        bottom: 4.8rem;
+        left: 2rem;
+        right: 2rem;
+      }
+
       .title {
         font-family: $SSP;
         font-size: 6.1rem;
         font-weight: 500;
         color: $white;
         letter-spacing: 1px;
-        line-height: 1.2;
+        line-height: 1;
+
+        @media (max-width: 68em) {
+          font-size: 3.9rem;
+          font-weight: 600;
+        }
+        @media (max-width: 47em) {
+          font-size: 3.1rem;
+          font-weight: 500;
+        }
       }
 
       p {
         font-size: 3.1rem;
         font-weight: 500;
         margin-top: 4rem;
+        line-height: 1.5;
         color: $white;
+        @media (max-width: 68em) {
+          margin-top: 2.4rem;
+          font-size: 2.5rem;
+          font-weight: 400;
+        }
+        @media (max-width: 47em) {
+          font-size: 2rem;
+          line-height: 1.4;
+          margin-top: 2.4rem;
+        }
       }
 
       &__btn {
@@ -117,6 +153,14 @@ $SSP: "Source Sans Pro", sans-serif;
 
         &:focus {
           outline: none;
+        }
+
+        @media (max-width: 68em) {
+          font-size: 1.6rem;
+        }
+        @media (max-width: 47em) {
+          font-size: 1.28rem;
+          margin-top: 1.6rem;
         }
       }
     }

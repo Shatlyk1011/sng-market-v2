@@ -55,8 +55,10 @@ $text: #181f29;
   transition: all 0.3s;
 }
 
-.myBtn:hover .icon {
-  width: calc(100% - 0.6rem);
+@media (hover: hover) {
+  .myBtn:hover .icon {
+    width: calc(100% - 0.6rem);
+  }
 }
 
 .myBtn .icon .search-icon {

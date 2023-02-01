@@ -9,16 +9,16 @@
         </div>
 
         <div class="form">
-          <div>
+          <div class="form__wrapper">
             <label for="name" class="label">Полное имя:</label>
             <input id="name" type="text" placeholder="Ваше имя..." required />
           </div>
 
-          <div>
+          <div class="form__wrapper">
             <label for="name" class="label">Email адрес:</label>
             <input id="name" type="text" placeholder="anton@mail.ru" required />
           </div>
-          <div>
+          <div class="form__wrapper">
             <label for="options">Тип интересующего товара:</label>
             <select id="options">
               <option value="">Выберите:</option>
@@ -55,22 +55,39 @@ $SSP: "Source Sans Pro", sans-serif;
 .call-to-action {
   padding: 4.8rem;
   position: relative;
+  @media (max-width: 47em) {
+    padding: 4.8rem 2.4rem;
+  }
   .container {
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 1rem;
     max-width: 100rem;
     background-color: $main-dark-1;
     display: flex;
     overflow: hidden;
+    @media (max-width: 47em) {
+      flex-direction: column;
+    }
     .cta {
       width: 100%;
       padding: 2.4rem 3.2rem;
       height: 100%;
+      @media (max-width: 68em) {
+        padding: 1.6rem 2.4rem;
+      }
+      @media (max-width: 47em) {
+        order: 2;
+      }
       &__heading {
         color: $main-light-1;
         font-size: 3.125rem;
         font-weight: 600;
         font-family: $SSP;
+        line-height: 1.3;
+        @media (max-width: 47em) {
+          font-size: 2.5rem;
+          margin-left: -2px;
+        }
       }
 
       &__subtitle {
@@ -78,6 +95,10 @@ $SSP: "Source Sans Pro", sans-serif;
         font-family: $roboto;
         font-size: 1.6rem;
         font-weight: 500;
+        @media (max-width: 47em) {
+          font-size: 1.28rem;
+          margin-top: 1rem;
+        }
       }
 
       .form {
@@ -85,8 +106,12 @@ $SSP: "Source Sans Pro", sans-serif;
         grid-template-columns: 1fr 1fr;
         gap: 1.6rem;
         margin-top: 4.8rem;
+        @media (max-width: 47em) {
+          gap: 1rem;
+          margin-top: 2.4rem;
+        }
 
-        div {
+        &__wrapper {
           display: flex;
           flex-direction: column;
           gap: 4px;
@@ -96,13 +121,16 @@ $SSP: "Source Sans Pro", sans-serif;
           font-family: $SSP;
           font-weight: 600;
           font-size: 1.4rem;
+          @media (max-width: 47em) {
+            font-size: 1.28rem;
+          }
         }
         input,
         select {
           padding: 1rem 1.2rem;
           outline: none;
           border: none;
-          border-radius: 6px;
+          border-radius: 0.6rem;
 
           &::placeholder {
             font-size: 1.28rem;
@@ -140,13 +168,22 @@ $SSP: "Source Sans Pro", sans-serif;
             transform: translateY(3px) scale(0.97);
           }
         }
+        @media (max-width: 47em) {
+          font-size: 1rem;
+        }
       }
     }
     .img {
       width: 30%;
-
       filter: brightness(0.8);
       background: linear-gradient();
+
+      @media (max-width: 47em) {
+        width: 100%;
+        max-height: 40rem;
+        object-fit: cover;
+        object-position: 0 -8rem;
+      }
     }
   }
 

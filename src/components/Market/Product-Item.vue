@@ -1,26 +1,21 @@
 <template>
   <div class="product">
     <div class="product__img-container">
-      <router-link
-        class="product__title"
-        :to="{ name: 'ProductView', params: { id: product.id } }"
-      >
-        <img :src="product.imageUrl" alt="" class="product__img" />
-      </router-link>
+      <router-link :to="{ name: 'ProductView', params: { id: product.id } }"
+        ><img :src="product.imageUrl" alt="" class="product__img"
+      /></router-link>
     </div>
-    <div class="product__name">
-      <router-link
-        class="product__title"
-        :to="{ name: 'ProductView', params: { id: product.id } }"
-        >{{ product.title }}</router-link
-      >
-      <ion-icon class="product__icon" name="heart"></ion-icon>
+    <div class="product__description">
+      <div class="product__name">
+        <div class="product__title">{{ product.title }}</div>
+        <ion-icon class="product__icon" name="heart"></ion-icon>
+      </div>
+      <div class="product__rating">
+        <FiveStars />
+        <span>55 Ratings</span>
+      </div>
+      <div class="product__price">{{ product.price }} RUB</div>
     </div>
-    <div class="product__rating">
-      <FiveStars />
-      <span>55 Ratings</span>
-    </div>
-    <div class="product__price">{{ product.price }} RUB</div>
   </div>
 </template>
 
@@ -46,27 +41,17 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
 .product {
   &__img-container {
-    width: 28rem;
-    height: 28rem;
+    width: 100%;
+    min-height: 30rem;
     background-color: #fefefe;
-
     position: relative;
     box-sizing: content-box;
+
+    @media (max-width: 68em) {
+      min-height: 27rem;
+    }
   }
   &__img {
     position: absolute;
@@ -94,6 +79,15 @@ $SSP: "Source Sans Pro", sans-serif;
       transform: translateY(5px) scale(0.95);
     }
   }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 30rem;
+    margin: 0 auto;
+    margin-top: 1.6rem;
+  }
   &__title {
     font-size: 1.6rem;
     text-decoration: none;
@@ -102,15 +96,6 @@ $SSP: "Source Sans Pro", sans-serif;
     text-transform: capitalize;
     cursor: pointer;
     transition: transform 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-
-    &:hover {
-      font-weight: 700;
-      // font-size: 1.7rem;
-      color: #000;
-    }
-    &:active {
-      transform: translateY(1px) scale(0.95);
-    }
   }
 
   &__name {

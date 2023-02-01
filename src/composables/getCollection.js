@@ -14,9 +14,9 @@ const getCollection = (collection, query) => {
   }
 
   const unsub = collectionRef.onSnapshot(
-    async (snap) => {
+    (snap) => {
       let results = [];
-      await snap.docs.forEach((doc) => {
+      snap.docs.forEach((doc) => {
         doc.data().createdAt && results.push({ ...doc.data(), id: doc.id });
       });
       products.value = results;

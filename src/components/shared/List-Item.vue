@@ -1,7 +1,7 @@
 <template>
   <div class="listItem">
     <div class="icon">{{ icon }}</div>
-    <div class="title">{{ title }}</div>
+    <div :class="`title ${actionClass}`">{{ title }}</div>
     <div class="description"><slot /></div>
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 export default {
   name: "ListItem",
-  props: ["icon", "title"],
+  props: ["icon", "title", "actionClass"],
 };
 </script>
 
@@ -26,6 +26,9 @@ $SSP: "Source Sans Pro", sans-serif;
 
 .listItem {
   padding: 0 1rem;
+  @media (max-width: 47em) {
+    padding: 0;
+  }
 
   .title {
     font-family: $SSP;
@@ -34,12 +37,28 @@ $SSP: "Source Sans Pro", sans-serif;
     line-height: 1.2;
     font-size: 2.5rem;
   }
+  .color-1 {
+    color: $main-dark-1;
+  }
+  .color-2 {
+    color: $main-light-1;
+  }
+  .color-3 {
+    color: $main-dark-2;
+  }
+
+  .color-4 {
+    color: $main-light-2;
+  }
   .description {
     margin-top: 2rem;
     font-weight: 500;
     font-family: $roboto;
     font-size: 1.28rem;
     line-height: 1.5;
+    @media (max-width: 47em) {
+      margin-top: 1rem;
+    }
   }
 }
 </style>

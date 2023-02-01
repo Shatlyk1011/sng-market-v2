@@ -4,7 +4,7 @@
       <div class="img-container"></div>
       <div class="content">
         <div class="title">
-          {{ action }} на лучший онлайн рынок в <br /><span>СНГ</span>
+          Добро пожаловать на лучший онлайн рынок в <span>СНГ</span>
         </div>
         <div class="subtitle">
           Лучший онлайн рынок для оптовых закупок в
@@ -38,27 +38,6 @@ import Search from "../shared/Search.vue";
 export default {
   name: "Hero",
   components: { Search },
-
-  setup() {
-    const action = ref("Добро пожаловать");
-    const interval = ref(null);
-
-    const changeTitle = () => {
-      interval.value = setInterval(() => {
-        const actions = ["Добро пожаловать", "Welcome", "Hosh geldiniz"];
-        const currentActionIndex = actions.indexOf(action.value);
-        const nextActionIndex = (currentActionIndex + 1) % 3;
-        const nextAction = actions[nextActionIndex];
-        console.log(currentActionIndex);
-        action.value = nextAction;
-      }, 2000);
-    };
-
-    onMounted(() => changeTitle());
-    onBeforeUnmount(() => clearInterval(interval.value));
-
-    return { action };
-  },
 };
 </script>
 
@@ -83,6 +62,9 @@ $SSP: "Source Sans Pro", sans-serif;
     position: relative;
     display: flex;
     justify-content: center;
+    @media (max-width: 47em) {
+      padding: 0 4rem;
+    }
 
     .img-container {
       position: absolute;
@@ -122,6 +104,9 @@ $SSP: "Source Sans Pro", sans-serif;
           letter-spacing: 3px;
           color: $white;
           color: $main-light-1;
+        }
+        @media (max-width: 47rem) {
+          font-size: 3.9rem;
         }
       }
       .subtitle {

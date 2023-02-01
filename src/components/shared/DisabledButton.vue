@@ -1,5 +1,11 @@
 <template>
-  <button class="btn disabled disabled__btn" v-if="!isPending" disabled>
+  <button
+    :class="`btn disabled disabled__btn ${
+      smallerBorder ? 'smallerBorder' : ''
+    } `"
+    v-if="!isPending"
+    disabled
+  >
     <span :class="`curtom-loader ${smallerSpin ? 'smallerSpin' : ''}`"></span>
     <span>{{ title }}</span>
   </button>
@@ -8,7 +14,7 @@
 <script>
 export default {
   name: "DisabledButton",
-  props: ["title", "smallerSpin"],
+  props: ["title", "smallerSpin", "smallerBorder"],
 };
 </script>
 
@@ -66,6 +72,9 @@ $SSP: "Source Sans Pro", sans-serif;
     font-size: 1.6rem;
     font-family: $SSP;
     line-height: 1;
+    &.smallerBorder {
+      border-radius: 2px;
+    }
   }
 }
 </style>

@@ -57,25 +57,6 @@ $white: #fff;
 $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
-/* 
-  FONTS: 
-  font-family: 'Roboto Mono', monospace;
-  font-family: 'Source Sans Pro', sans-serif;
-*/
-
-/* FONT-SIZES:
-4.768rem/76.29px,
-3.815rem/61.04px
-3.052rem/48.83px,
-2.441rem/39.06px,
-1.953rem/31.25px,
-1.563rem/25.00px,
-1.25rem/20.00px,
-1rem/16.00px,
-0.8rem/12.80px,
-0.64rem/10.24px,
-0.512rem/8.19px
- */
 .nav {
   font-family: $SSP;
   font-size: 2rem;
@@ -86,6 +67,14 @@ $SSP: "Source Sans Pro", sans-serif;
   color: $text;
   background-color: $main-light-1;
   padding: 1.4rem 6.4rem;
+  @media (max-width: 56rem) {
+    padding: 1.4rem 4.8rem;
+    gap: 1rem;
+  }
+  @media (max-width: 47em) {
+    font-size: 1.6rem;
+    padding: 1rem 3.2rem;
+  }
 
   .logo {
     text-decoration: none;
@@ -95,6 +84,14 @@ $SSP: "Source Sans Pro", sans-serif;
     display: flex;
     gap: 6.4rem;
     align-items: center;
+    justify-content: space-between;
+    @media (max-width: 56rem) {
+      gap: 4.8rem;
+    }
+    @media (max-width: 47em) {
+      gap: 3.2rem;
+    }
+
     ul {
       display: flex;
       gap: 2.4rem;
@@ -116,6 +113,12 @@ $SSP: "Source Sans Pro", sans-serif;
           transform: translate(0);
         }
       }
+      @media (max-width: 56em) {
+        gap: 2rem;
+      }
+      @media (max-width: 56em) {
+        gap: 1.8rem;
+      }
     }
 
     .action {
@@ -126,5 +129,8 @@ $SSP: "Source Sans Pro", sans-serif;
 }
 .login {
   padding: 1.4rem 3.7rem 1.4rem 2.25rem;
+  @media (max-width: 56em) {
+    font-size: 1.6rem;
+  }
 }
 </style>
