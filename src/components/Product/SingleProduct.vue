@@ -9,11 +9,14 @@
           <div class="product__name">{{ product.title }}</div>
           <div class="product__active-btns">
             <router-link
+              v-if="owner"
               :to="{ name: 'ChangeProductView', params: { id: productId } }"
               class="btn active-btn"
               >Изменить</router-link
             >
-            <div class="btn active-btn" @click="handleDelete">Удалить</div>
+            <div v-if="owner" class="btn active-btn" @click="handleDelete">
+              Удалить
+            </div>
           </div>
         </div>
         <div class="product__seller">
@@ -58,7 +61,10 @@
 import FiveStars from "@/components/shared/Five-stars.vue";
 import Availability from "@/components/shared/Availability.vue";
 
+import { computed } from "vue";
+
 import useDocument from "@/composables/useDocument";
+import getUser from "@/composables/getUser";
 
 import router from "@/router";
 export default {
@@ -66,10 +72,11 @@ export default {
   components: { FiveStars, Availability },
   props: ["error", "product"],
 
-  setup() {
+  setup(props) {
     const productId = router.currentRoute.value.params.id;
 
     const { deleteDoc, error } = useDocument("products", productId);
+    const { user } = getUser();
 
     const handleDelete = async () => {
       await deleteDoc();
@@ -78,7 +85,13 @@ export default {
       }
     };
 
-    return { productId, handleDelete };
+    const owner = computed(() => {
+      return (
+        props.product && user.value && user.value.uid == props.product.userUid
+      );
+    });
+
+    return { productId, handleDelete, owner };
   },
 };
 </script>

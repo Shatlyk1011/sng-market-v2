@@ -18,14 +18,22 @@
           <div class="comment__date">{{ comment.createdAt }}</div>
         </div>
         <div class="comment__actions">
-          <div class="comment__delete" @click="handleDelete(comment.commentId)">
+          <div
+            v-if="comment.authorUid === user.uid"
+            class="comment__delete"
+            @click="handleDelete(comment.commentId)"
+          >
             <ion-icon
               class="comment__icon delete"
               name="trash-outline"
             ></ion-icon>
             <span class="delete">Удалить</span>
           </div>
-          <div class="comment__edit" @click="change = !change">
+          <div
+            v-if="comment.authorUid === user.uidr"
+            class="comment__edit"
+            @click="change = !change"
+          >
             <ion-icon
               class="comment-icon edit"
               name="pencil-outline"
@@ -61,6 +69,7 @@ import getUser from "@/composables/getUser";
 import useDocument from "@/composables/useDocument";
 
 import { computed, ref, watchEffect } from "vue";
+import router from "@/router";
 
 export default {
   name: "Comment",
@@ -72,8 +81,9 @@ export default {
     const newComment = ref(null);
     const title = ref(null);
     const change = ref(false);
-    const checkIfLiked = ref(null);
     const commentLikes = ref(null);
+    const productId = router.currentRoute.value.params.id;
+    console.log("productId", productId);
 
     //composables
     const { user } = getUser();
@@ -104,6 +114,7 @@ export default {
       }
     };
 
+    //изменить комментарий
     const handleUpdate = async () => {
       if (title.value.length !== 0)
         await updateDoc({
@@ -111,10 +122,14 @@ export default {
         });
       change.value = false;
     };
-
+    // удалить комментарий
     const handleDelete = (commentId) => {
       deleteDoc(commentId);
     };
+
+    const owner = computed(() => {
+      return user.value && user.value.uid == props.comment.docId;
+    });
 
     const checkLikedUsers = computed(() => {
       if (commentLikes.value) {
@@ -144,6 +159,9 @@ export default {
       handleUpdate,
       change,
       commentLikes,
+      owner,
+      user,
+      productId,
     };
   },
 };

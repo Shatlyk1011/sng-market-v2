@@ -7,7 +7,7 @@
           @keyup.prevent.enter="handleComment"
           v-model.trim="commentItself"
           placeholder="Добавить комментарий..."
-          maxlength="100"
+          maxlength="200"
           ref="textarea"
         />
         <button
@@ -83,6 +83,7 @@ export default {
         textarea.value.setAttribute("disabled", "");
         const newComment = {
           author: user.value.displayName,
+          authorUid: user.value.uid,
           userImage: user.value.photoURL,
           title: commentItself.value,
           createdAt: timestamp(),

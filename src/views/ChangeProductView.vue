@@ -25,10 +25,12 @@
       <div class="label">
         <span> Категория товара </span>
         <select v-model.trim="category">
-          <option value="Фрукты">Фрукты</option>
-          <option value="Сухофрукты">Сухофркуты</option>
-          <option value="Овощи">Овощи</option>
-          <option value="Орехи">Орехи</option>
+          <optgroup label="Выберите вид товара">
+            <option value="Фрукты">Фрукты</option>
+            <option value="Сухофрукты">Сухофркуты</option>
+            <option value="Овощи">Овощи</option>
+            <option value="Орехи">Орехи</option>
+          </optgroup>
         </select>
       </div>
 
@@ -127,6 +129,7 @@ export default {
     const image = ref(null);
     const imageTypeError = ref(null);
     const isPending = ref(null);
+    const checkboxRef = ref(null);
 
     //composables
     const { document, error } = getDocument("products", productId);
@@ -200,6 +203,18 @@ export default {
       }
     };
 
+    //показать/скрыть question mark
+    const showQuote = () => {
+      setTimeout(() => {
+        checkboxRef.value.classList.add("active");
+      }, 300);
+    };
+    const hideQuote = () => {
+      setTimeout(() => {
+        checkboxRef.value.classList.remove("active");
+      }, 300);
+    };
+
     return {
       title,
       price,
@@ -213,8 +228,10 @@ export default {
       isPending,
       imageTypeError,
       updateError,
+      checkboxRef,
       storageError,
       updateProduct,
+      image,
     };
   },
 };
@@ -233,6 +250,9 @@ $SSP: "Source Sans Pro", sans-serif;
 
 .change-product {
   padding: 6.4rem 4.8rem;
+  @media (max-width: 31em) {
+    padding: 3.2rem 1.6rem;
+  }
   .form {
     max-width: 45rem;
     margin: 0 auto;
@@ -240,6 +260,9 @@ $SSP: "Source Sans Pro", sans-serif;
     flex-direction: column;
     gap: 2.4rem;
     line-height: 1.4;
+    @media (max-width: 31em) {
+      gap: 2rem;
+    }
 
     h2 {
       font-size: 2rem;
@@ -274,6 +297,13 @@ $SSP: "Source Sans Pro", sans-serif;
           font-size: 1.24rem;
           color: rgba($main-dark-2, 0.6);
         }
+        @media (max-width: 31em) {
+          padding: 0.4rem 1rem;
+
+          & optgroup {
+            font-size: 1.28rem;
+          }
+        }
       }
 
       select {
@@ -292,6 +322,13 @@ $SSP: "Source Sans Pro", sans-serif;
       border: 0.1rem solid rgba($main-dark-2, 0.2);
       padding: 0.4rem 1rem;
       border-radius: 0.8rem;
+
+      @media (max-width: 31em) {
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 1rem;
+      }
+
       &__wrapper {
         display: flex;
         flex-direction: row;
@@ -400,6 +437,10 @@ $SSP: "Source Sans Pro", sans-serif;
           right: 10rem;
           z-index: 100;
           color: $main-dark-1;
+
+          @media (max-width: 31em) {
+            right: 0;
+          }
         }
 
         .invis-box {
@@ -411,6 +452,9 @@ $SSP: "Source Sans Pro", sans-serif;
           z-index: 1000;
           cursor: help;
           opacity: 0;
+          @media (max-width: 31em) {
+            right: 0;
+          }
         }
 
         p {
@@ -430,6 +474,11 @@ $SSP: "Source Sans Pro", sans-serif;
           padding: 0.6rem 1rem;
           z-index: 1000;
           color: $white;
+          @media (max-width: 31em) {
+            font-size: 7px;
+            right: -4%;
+            padding: 4px;
+          }
 
           &::after {
             content: "";
@@ -443,6 +492,9 @@ $SSP: "Source Sans Pro", sans-serif;
             border-color: transparent;
             border-top-color: $main-dark-1;
             transform: rotate(180deg);
+            @media (max-width: 31em) {
+              left: 82%;
+            }
           }
         }
 

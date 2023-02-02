@@ -53,6 +53,9 @@ $SSP: "Source Sans Pro", sans-serif;
       @media (max-width: 47em) {
         min-height: 55rem;
       }
+      @media (max-width: 31em) {
+        min-height: 40rem;
+      }
 
       &--1 {
         position: relative;
@@ -90,6 +93,11 @@ $SSP: "Source Sans Pro", sans-serif;
         left: 2rem;
         right: 2rem;
       }
+      @media (max-width: 31em) {
+        left: 1rem;
+        right: 1rem;
+        bottom: 2rem;
+      }
 
       .title {
         font-family: $SSP;
@@ -106,6 +114,9 @@ $SSP: "Source Sans Pro", sans-serif;
         @media (max-width: 47em) {
           font-size: 3.1rem;
           font-weight: 500;
+        }
+        @media (max-width: 31em) {
+          font-size: 2.5rem;
         }
       }
 
@@ -124,6 +135,9 @@ $SSP: "Source Sans Pro", sans-serif;
           font-size: 2rem;
           line-height: 1.4;
           margin-top: 2.4rem;
+        }
+        @media (max-width: 31em) {
+          font-size: 1.6rem;
         }
       }
 
@@ -161,6 +175,9 @@ $SSP: "Source Sans Pro", sans-serif;
         @media (max-width: 47em) {
           font-size: 1.28rem;
           margin-top: 1.6rem;
+        }
+        @media (max-width: 31em) {
+          padding: 0.4rem 1rem;
         }
       }
     }

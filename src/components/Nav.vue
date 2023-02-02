@@ -1,6 +1,8 @@
 <template>
   <nav class="nav" ref="navRef">
-    <router-link class="logo" to="/">Logo</router-link>
+    <router-link class="logo" to="/">
+      <img src="../assets/logo.png" alt="" />
+    </router-link>
     <ion-icon
       @click="toggleNav"
       class="icon icon-show"
@@ -11,7 +13,7 @@
       class="icon icon-hide"
       name="close-outline"
     ></ion-icon>
-    <div class="container">
+    <div class="container" @click="toggleNav">
       <ul>
         <router-link class="li" :to="{ name: 'MarketView' }">Рынок</router-link>
         <router-link v-if="user" class="li" :to="{ name: 'MyProductsView' }"
@@ -108,8 +110,24 @@ $SSP: "Source Sans Pro", sans-serif;
     padding: 1rem 3.2rem;
   }
   @media (max-width: 31em) {
-    padding: 1rem 1.6rem;
+    padding: 1.4rem 2.4rem;
     position: relative;
+  }
+
+  .logo {
+    text-decoration: none;
+    width: 3.2rem;
+    height: 3.2rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 31em) {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
   }
 
   .icon {
@@ -143,10 +161,6 @@ $SSP: "Source Sans Pro", sans-serif;
     .icon-show {
       display: none;
     }
-  }
-
-  .logo {
-    text-decoration: none;
   }
 
   .container {

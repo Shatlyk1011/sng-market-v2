@@ -1,3 +1,0 @@
-add max description for product characters 
-
-когда на цееник hover покажи текст мол цена в рублях

@@ -55,7 +55,6 @@ export default {
       "==",
       user.value.uid,
     ]);
-    console.log("products", products.value);
 
     return {
       user,
@@ -83,11 +82,18 @@ $SSP: "Source Sans Pro", sans-serif;
   @media (max-width: 87em) {
     padding: 6rem 4rem;
   }
+  @media (max-width: 31em) {
+    padding: 3.2rem 1.6rem;
+  }
   .container {
     text-align: center;
     h3 {
       margin: 0 auto;
-      width: 50rem;
+      max-width: 50rem;
+      margin-top: 1rem;
+
+      @media (max-width: 31em) {
+      }
     }
     .credentials {
       border-radius: 1rem;

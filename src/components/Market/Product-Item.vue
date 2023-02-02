@@ -128,6 +128,7 @@ $SSP: "Source Sans Pro", sans-serif;
   &__price {
     font-family: $SSP;
     font-weight: 500;
+    text-align: left;
   }
 }
 </style>
