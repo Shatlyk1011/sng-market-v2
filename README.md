@@ -1,19 +1,6 @@
-# sng-rynok-new
+## Live-project: sng-market.netlify.app
 
-## Project setup
-```
-npm install
-```
+## SNG-market - проект позволяющий людям делать оптовые закупки из постсоветских просторах. 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+ ### Доступный функционал: авторизация на базе "Firestore Authentication" через логин и пароль. Добавлять товар. Изменять/удалять товар при условии что вы владелец этого товара. Для каждого товара есть возможность оставлять коментарии. Удалить/изменить коментарий при условии что вы владелец коментария, либо если вы владелец товара. Поставить/убрать лайк. "Route guard" для неавторизованных пользователей 
+ ### Функционал над которым я работаю: Возможность добавлять товар в корзину/избранное. Фильтрация по категориям, поиск по названию товаров.
