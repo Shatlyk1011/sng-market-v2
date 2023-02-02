@@ -1,4 +1,4 @@
-## [Live-project:](sng-market.netlify.app)
+## Live-project: https://sng-market.netlify.app
 
 ## SNG-market - проект позволяющий людям делать оптовые закупки из постсоветских просторах. 
 
