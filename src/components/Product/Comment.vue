@@ -223,6 +223,11 @@ $SSP: "Source Sans Pro", sans-serif;
     display: flex;
     gap: 1.6rem;
     align-items: center;
+    @media (max-width: 31em) {
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+    }
   }
   &__image {
     width: 4.8rem;
@@ -251,6 +256,7 @@ $SSP: "Source Sans Pro", sans-serif;
   &__date {
     font-weight: 600;
     font-size: 1rem;
+    line-height: 1;
   }
 
   &__actions {
@@ -258,6 +264,9 @@ $SSP: "Source Sans Pro", sans-serif;
     gap: 1rem;
     margin-left: auto;
     align-self: center;
+    @media (max-width: 31em) {
+      flex-direction: column;
+    }
   }
   &__delete,
   &__edit {
@@ -310,6 +319,13 @@ $SSP: "Source Sans Pro", sans-serif;
     line-height: 1.5;
     font-size: 1.6rem;
     margin-top: 2rem;
+    @media (max-width: 31em) {
+      border-top: 1px solid rgba($main-dark-1, 0.2);
+      border-radius: 3px;
+      padding: 4px 6px;
+      line-height: 1.3;
+      font-size: 1.6rem;
+    }
   }
   &__change {
     display: flex;

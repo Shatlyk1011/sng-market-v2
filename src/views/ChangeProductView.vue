@@ -174,6 +174,7 @@ export default {
       //удалить старое и загрузить новое изображение
       if (image.value) {
         await deleteImage(document.value.filePath);
+        console.log("image VALUE inside handle", image.value);
 
         await uploadImage(image.value);
       }

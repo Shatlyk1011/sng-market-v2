@@ -75,6 +75,8 @@ $SSP: "Source Sans Pro", sans-serif;
 html {
   font-size: 62.5%;
   line-height: 1.5;
+  overflow-x: hidden;
+
   @media (min-width: 100em) {
     font-size: 75%;
   }
@@ -86,6 +88,7 @@ html {
 body {
   font-family: $roboto;
   font-size: 1.6rem;
+  overflow-x: hidden;
 }
 
 .btn {

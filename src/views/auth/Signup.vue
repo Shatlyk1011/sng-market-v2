@@ -68,7 +68,7 @@
           src="../../assets/icons/question.svg"
           alt="question"
         />
-        <p>Ваша аватарка будет используется в коментариях</p>
+        <p>Ваша аватарка будет использоваться в коментариях</p>
         <div class="error" v-if="photoTypeError">{{ photoTypeError }}</div>
       </div>
       <div class="error" v-if="error">{{ error }}</div>
@@ -77,8 +77,14 @@
         <input type="checkbox" id="checkbox" required />
         <label for="checkbox">Я принимаю все </label><span>условия</span>
       </div>
-      <button class="btn form__btn">Зарегистрироватсья</button>
-      <disabled-button smallerBorder="smallerBorder" title="Регистрация" />
+      <button v-if="!isPending" class="btn form__btn">
+        Зарегистрироватсья
+      </button>
+      <disabled-button
+        v-if="isPending"
+        smallerBorder="smallerBorder"
+        title="Регистрация"
+      />
     </form>
     <h4>
       Есть аккаунт?

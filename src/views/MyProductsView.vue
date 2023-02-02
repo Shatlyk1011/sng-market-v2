@@ -128,6 +128,9 @@ $SSP: "Source Sans Pro", sans-serif;
       @media (max-width: 47em) {
         grid-template-columns: repeat(2, 1fr);
       }
+      @media (max-width: 31em) {
+        grid-template-columns: 1fr;
+      }
     }
 
     & .no-products {

@@ -136,6 +136,9 @@ $SSP: "Source Sans Pro", sans-serif;
   margin: 0 auto;
   margin-top: 6.4rem;
   border-radius: 0.6rem;
+  @media (max-width: 31em) {
+    margin-top: 4.8rem;
+  }
 
   .container {
     max-width: 80rem;
@@ -147,6 +150,10 @@ $SSP: "Source Sans Pro", sans-serif;
       align-items: start;
       gap: 1.6rem;
       padding: 2.4rem;
+      @media (max-width: 31em) {
+        padding: 1rem;
+        gap: 1rem;
+      }
       img {
         border-radius: 100%;
         width: 5rem;
@@ -168,6 +175,9 @@ $SSP: "Source Sans Pro", sans-serif;
         &:focus {
           outline: none;
           border: 1px solid rgba($main-light-1, 0.6);
+        }
+        @media (max-width: 31em) {
+          padding: 1rem;
         }
       }
     }

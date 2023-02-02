@@ -3,16 +3,19 @@
     <SingleProduct :product="product" :error="error" />
     <Comments />
   </div>
-  <div v-else>Loading...</div>
+  <LoadingPage v-else />
 </template>
 
 <script>
 import SingleProduct from "@/components/Product/SingleProduct.vue";
 import Comments from "@/components/Product/Comments.vue";
+
+import LoadingPage from "@/components/shared/LoadingPage.vue";
+
 import getDocument from "@/composables/getDocument";
 export default {
   name: "Product",
-  components: { SingleProduct, Comments },
+  components: { SingleProduct, Comments, LoadingPage },
 
   props: ["id"],
 

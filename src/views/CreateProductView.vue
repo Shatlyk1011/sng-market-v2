@@ -192,6 +192,7 @@ export default {
       checkboxRef,
       showQuote,
       hideQuote,
+      isPending,
     };
   },
 };

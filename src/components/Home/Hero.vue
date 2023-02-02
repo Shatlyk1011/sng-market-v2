@@ -13,14 +13,14 @@
         </div>
 
         <Search
-          placeholder="Яблоки, бананы, виноград..."
+          placeholder="Яблоки, бананы, виноград,.."
           btnText="Поиск фруктов"
         />
 
         <div class="stats">
           <div class="stat">
-            <div class="num">10+</div>
-            <div class="text">тонн продаж фруктов и овощей в день!</div>
+            <div class="num">10000+</div>
+            <div class="text">килограмм продаж фруктов и овощей в день!</div>
           </div>
           <div class="stat">
             <div class="num">150+</div>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { onBeforeUnmount, onMounted, ref } from "@vue/runtime-core";
 import Search from "../shared/Search.vue";
 export default {
   name: "Hero",
@@ -54,16 +53,20 @@ $roboto: "Roboto Mono", monospace;
 $SSP: "Source Sans Pro", sans-serif;
 
 .hero {
+  position: relative;
   .container {
     min-height: 70rem;
     padding: 0 6rem;
-    width: 100%;
+    max-width: 100%;
     height: 100%;
     position: relative;
     display: flex;
     justify-content: center;
     @media (max-width: 47em) {
       padding: 0 4rem;
+    }
+    @media (max-width: 31em) {
+      padding: 0 1em;
     }
 
     .img-container {
@@ -91,7 +94,11 @@ $SSP: "Source Sans Pro", sans-serif;
       justify-self: center;
       text-align: center;
       margin-top: 4.8rem;
-      width: 55rem;
+      max-width: 55rem;
+      @media (max-width: 31em) {
+        margin-top: 3.2rem;
+      }
+
       .title {
         font-family: $SSP;
         font-weight: 700;

@@ -75,19 +75,19 @@ export default {
     });
 
     const maxPages = computed(() => {
-      return Math.ceil(products.value.length / 12);
+      return Math.ceil(products.value.length / 10);
     });
 
     const nextPage = computed(() => {
       const nextPage = currentPage.value + 1;
-      const maxPage = Math.ceil(products.value.length / 12);
-      return nextPage >= maxPage.value ? nextPage : null;
+      const maxPage = Math.ceil(products.value.length / 10);
+      return nextPage <= maxPage ? nextPage : null;
     });
 
     const displayedProducts = computed(() => {
       const pageNumber = currentPage.value;
-      const firstJobIndex = (pageNumber - 1) * 12;
-      const lastJobIndex = pageNumber * 12;
+      const firstJobIndex = (pageNumber - 1) * 10;
+      const lastJobIndex = pageNumber * 10;
       return products.value.slice(firstJobIndex, lastJobIndex);
     });
 
@@ -147,6 +147,9 @@ $SSP: "Source Sans Pro", sans-serif;
     }
     @media (max-width: 47em) {
       grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 31em) {
+      grid-template-columns: 1fr;
     }
   }
 

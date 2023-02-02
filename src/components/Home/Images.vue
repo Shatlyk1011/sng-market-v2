@@ -40,7 +40,7 @@ $SSP: "Source Sans Pro", sans-serif;
       display: inline-block;
       min-height: 80rem;
 
-      @media (min-width: 100em) {
+      @media (max-width: 100em) {
         min-height: 100rem;
       }
 
