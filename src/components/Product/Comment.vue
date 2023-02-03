@@ -30,7 +30,7 @@
             <span class="delete">Удалить</span>
           </div>
           <div
-            v-if="comment.authorUid === user.uidr"
+            v-if="comment.authorUid === user.uid"
             class="comment__edit"
             @click="change = !change"
           >

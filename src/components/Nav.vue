@@ -13,7 +13,7 @@
       class="icon icon-hide"
       name="close-outline"
     ></ion-icon>
-    <div class="container" @click="toggleNav">
+    <div class="container">
       <ul>
         <router-link class="li" :to="{ name: 'MarketView' }">Рынок</router-link>
         <router-link v-if="user" class="li" :to="{ name: 'MyProductsView' }"
