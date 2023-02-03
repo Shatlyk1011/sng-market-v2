@@ -110,6 +110,9 @@ $SSP: "Source Sans Pro", sans-serif;
           gap: 1rem;
           margin-top: 2.4rem;
         }
+        @media (max-width: 31em) {
+          grid-template-columns: 1fr;
+        }
 
         &__wrapper {
           display: flex;
@@ -167,9 +170,9 @@ $SSP: "Source Sans Pro", sans-serif;
           &:active {
             transform: translateY(3px) scale(0.97);
           }
-        }
-        @media (max-width: 47em) {
-          font-size: 1rem;
+          @media (max-width: 31em) {
+            margin-top: 2.4rem;
+          }
         }
       }
     }
