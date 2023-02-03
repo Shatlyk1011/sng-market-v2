@@ -50,12 +50,19 @@
         title="Заходим"
       />
     </form>
-    hehe
     <h4>
       Нету аккаунта?
       <router-link class="link" :to="{ name: 'Signup' }">
         Регистрация
       </router-link>
+      <div
+        class="test-log"
+        style="margin-top: 1rem; text-align: center; font-weight: 500"
+      >
+        <div style="font-weight: 600">Для тестирования</div>
+        login: sergey@mail.ru <br />
+        password: test123
+      </div>
     </h4>
   </div>
 </template>
