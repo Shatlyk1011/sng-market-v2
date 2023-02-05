@@ -51,18 +51,19 @@ const routes = [
     name: "ProductView",
     component: ProductView,
     props: true,
+    beforeEnter: requireAuth,
   },
   {
     path: "/change/:id",
     name: "ChangeProductView",
     component: ChangeProductView,
-    // beforeEnter: requireAuth,
+    beforeEnter: requireAuth,
   },
   {
     path: "/create-product",
     name: "CreateProductView",
     component: CreateProductView,
-    // beforeEnter: requireAuth,
+    beforeEnter: requireAuth,
   },
 ];
 
