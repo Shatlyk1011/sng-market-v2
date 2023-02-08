@@ -1,7 +1,7 @@
 <template>
   <div class="comments">
     <div class="container">
-      <div class="input-container">
+      <div class="input-container" v-if="user">
         <img :src="user && user.photoURL" alt="hm" />
         <textarea
           @keyup.prevent.enter="handleComment"
@@ -19,6 +19,7 @@
         </button>
         <DisabledButton v-if="isPending" title="Загружаем" />
       </div>
+      <div>войдите чтобы оставлять коментарии</div>
       <div class="comment-container" ref="commentContainer">
         <Comment
           v-for="comment in formatDate"

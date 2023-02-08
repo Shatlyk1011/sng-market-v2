@@ -13,16 +13,17 @@
         </div>
 
         <Search
+          class="search"
           placeholder="Яблоки, бананы, виноград,.."
           btnText="Поиск фруктов"
         />
 
         <div class="stats">
-          <div class="stat">
+          <div class="stat stat--1">
             <div class="num">10000+</div>
             <div class="text">килограмм продаж фруктов и овощей в день!</div>
           </div>
-          <div class="stat">
+          <div class="stat stat--2">
             <div class="num">150+</div>
             <div class="text">поставщиков из всех стран СНГ!</div>
           </div>
@@ -106,7 +107,8 @@ $SSP: "Source Sans Pro", sans-serif;
         font-size: 4.8rem;
         line-height: 1.1;
         color: $white;
-
+        animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) 0.2s
+          both;
         span {
           letter-spacing: 3px;
           color: $white;
@@ -121,6 +123,13 @@ $SSP: "Source Sans Pro", sans-serif;
         font-weight: 400;
         font-family: $roboto;
         margin: 2.4rem 0 4.8rem 0;
+        animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) 0.3s
+          both;
+      }
+
+      .search {
+        animation: slide-in-blurred-top 0.6s cubic-bezier(0.23, 1, 0.32, 1) 1s
+          both;
       }
 
       .stats {
@@ -135,6 +144,16 @@ $SSP: "Source Sans Pro", sans-serif;
           flex-direction: column;
           gap: 0;
           max-width: 20rem;
+
+          &--1 {
+            animation: slide-in-blurred-top 0.6s cubic-bezier(0.23, 1, 0.32, 1)
+              1.3s both;
+          }
+
+          &--2 {
+            animation: slide-in-blurred-top 0.6s cubic-bezier(0.23, 1, 0.32, 1)
+              1.4s both;
+          }
           .num {
             color: $main-light-1;
             font-weight: 600;
@@ -150,6 +169,97 @@ $SSP: "Source Sans Pro", sans-serif;
         }
       }
     }
+  }
+}
+
+@-webkit-keyframes slide-in-blurred-top {
+  0% {
+    -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+    transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    -webkit-filter: blur(40px);
+    filter: blur(40px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+    transform: translateY(0) scaleY(1) scaleX(1);
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-blurred-top {
+  0% {
+    -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+    transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    -webkit-filter: blur(40px);
+    filter: blur(40px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+    transform: translateY(0) scaleY(1) scaleX(1);
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes scale-up-center {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes scale-up-center {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
   }
 }
 </style>
