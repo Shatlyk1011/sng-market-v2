@@ -16,10 +16,10 @@
     <div class="container">
       <ul>
         <router-link class="li" :to="{ name: 'MarketView' }">Рынок</router-link>
-        <router-link v-if="user" class="li" :to="{ name: 'MyProductsView' }"
+        <router-link class="li" :to="{ name: 'MyProductsView' }"
           >Мои товары</router-link
         >
-        <router-link v-if="user" class="li" :to="{ name: 'CreateProductView' }"
+        <router-link class="li" :to="{ name: 'CreateProductView' }"
           >Создать свой товар</router-link
         >
       </ul>
