@@ -19,7 +19,6 @@
         </button>
         <DisabledButton v-if="isPending" title="Загружаем" />
       </div>
-      <div>войдите чтобы оставлять коментарии</div>
       <div class="comment-container" ref="commentContainer">
         <Comment
           v-for="comment in formatDate"

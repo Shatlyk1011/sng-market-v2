@@ -1,6 +1,6 @@
 <template>
   <div class="myProducts">
-    <div class="container">
+    <div class="container" v-if="products">
       <div class="credentials">
         <h2 class="name">
           Товары <span> {{ user.displayName }}</span>
@@ -32,20 +32,25 @@
         </h4>
       </div>
     </div>
+    <div v-else>
+      <LoadingPage />
+    </div>
   </div>
+
   <Footer />
 </template>
 
 <script>
 import Product from "@/components/Market/Product-Item.vue";
 import Footer from "@/components/Home/Footer.vue";
+import LoadingPage from "@/components/shared/LoadingPage.vue";
 
 import getUser from "@/composables/getUser";
 import getCollection from "@/composables/getCollection";
 
 export default {
   name: "Market",
-  components: { Product, Footer },
+  components: { Product, Footer, LoadingPage },
 
   setup() {
     const { user } = getUser();

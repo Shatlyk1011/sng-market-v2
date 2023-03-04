@@ -75,19 +75,19 @@ export default {
     });
 
     const maxPages = computed(() => {
-      return Math.ceil(products.value.length / 10);
+      return Math.ceil(products.value.length / 12);
     });
 
     const nextPage = computed(() => {
       const nextPage = currentPage.value + 1;
-      const maxPage = Math.ceil(products.value.length / 10);
+      const maxPage = Math.ceil(products.value.length / 12);
       return nextPage <= maxPage ? nextPage : null;
     });
 
     const displayedProducts = computed(() => {
       const pageNumber = currentPage.value;
-      const firstJobIndex = (pageNumber - 1) * 10;
-      const lastJobIndex = pageNumber * 10;
+      const firstJobIndex = (pageNumber - 1) * 12;
+      const lastJobIndex = pageNumber * 12;
       return products.value.slice(firstJobIndex, lastJobIndex);
     });
 

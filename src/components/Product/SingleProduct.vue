@@ -23,8 +23,8 @@
           Продавец: <span> {{ product.userName }}</span>
         </div>
         <div class="product__rating">
-          <five-stars />
-          <span>(55 Ratings)</span>
+          <five-stars :average="average" />
+          <span>{{ totalLength }} оценок</span>
         </div>
         <div class="product__price">{{ product.price }} RUB</div>
         <div class="product__text">
@@ -65,6 +65,7 @@ import { computed } from "vue";
 
 import useDocument from "@/composables/useDocument";
 import getUser from "@/composables/getUser";
+import getAverageStars from "@/composables/getAverageStars";
 
 import router from "@/router";
 export default {
@@ -74,6 +75,10 @@ export default {
 
   setup(props) {
     const productId = router.currentRoute.value.params.id;
+
+    const { average, length: totalLength } = getAverageStars(
+      props.product.stars
+    );
 
     const { deleteDoc, error } = useDocument("products", productId);
     const { user } = getUser();
@@ -91,7 +96,7 @@ export default {
       );
     });
 
-    return { productId, handleDelete, owner };
+    return { productId, handleDelete, owner, average, totalLength };
   },
 };
 </script>
@@ -210,10 +215,11 @@ $SSP: "Source Sans Pro", sans-serif;
   }
   &__rating {
     display: flex;
+    align-items: center;
     gap: 1rem;
     margin-top: 2.4rem;
     span {
-      color: rgba($text, 0.5);
+      color: rgba($text, 0.8);
     }
   }
   &__price {

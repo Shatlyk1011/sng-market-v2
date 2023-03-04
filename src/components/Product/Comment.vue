@@ -83,7 +83,6 @@ export default {
     const change = ref(false);
     const commentLikes = ref(null);
     const productId = router.currentRoute.value.params.id;
-    console.log("productId", productId);
 
     //composables
     const { user } = getUser();

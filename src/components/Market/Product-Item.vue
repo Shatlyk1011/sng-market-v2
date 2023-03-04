@@ -8,24 +8,39 @@
     <div class="product__description">
       <div class="product__name">
         <div class="product__title">{{ product.title }}</div>
-        <ion-icon class="product__icon" name="heart"></ion-icon>
+        <span title="Добавить в избранное">
+          <ion-icon class="product__icon" name="heart"></ion-icon>
+        </span>
       </div>
       <div class="product__rating">
-        <FiveStars />
-        <span>55 Ratings</span>
+        <FiveStars :average="average" />
+        <span :title="`Оставлено ${totalLength} оценок`"
+          >{{ totalLength }} оценок</span
+        >
       </div>
-      <div class="product__price">{{ product.price }} RUB</div>
+      <div class="product__price" title="Цена за килограмм">
+        {{ product.price }} RUB
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import FiveStars from "../shared/Five-stars.vue";
+
+import getAverageStars from "@/composables/getAverageStars";
 export default {
   name: "Product-item",
   props: ["product"],
   components: {
     FiveStars,
+  },
+
+  setup(props) {
+    const { average, length: totalLength } = getAverageStars(
+      props.product.stars
+    );
+    return { average, totalLength };
   },
 };
 </script>
@@ -94,7 +109,6 @@ $SSP: "Source Sans Pro", sans-serif;
     font-weight: 600;
     font-family: $SSP;
     text-transform: capitalize;
-    cursor: pointer;
     transition: transform 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
 
@@ -103,17 +117,25 @@ $SSP: "Source Sans Pro", sans-serif;
     justify-content: space-between;
     gap: 1.6rem;
   }
+
+  span {
+    &:hover > .product__icon {
+      color: red;
+    }
+    &:active > .product__icon {
+      transform: translateY(2px) scale(0.85);
+    }
+  }
   &__icon {
     width: 1.8rem;
     height: 1.8rem;
     color: $main-dark-1;
+    pointer-events: none;
 
     transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
     &:hover {
-      color: red;
     }
     &:active {
-      transform: translateY(3px) scale(0.9);
     }
   }
 
@@ -124,11 +146,22 @@ $SSP: "Source Sans Pro", sans-serif;
     font-size: 1.28rem;
     font-weight: 600;
     letter-spacing: -0.6px;
+
+    & span {
+      cursor: help;
+    }
   }
   &__price {
+    font-size: 1.4rem;
     font-family: $SSP;
-    font-weight: 500;
+    font-weight: 600;
     text-align: left;
+    padding: 8px 12px;
+    line-height: 1.2;
+    border-radius: 8px;
+    background-color: $main-dark-1;
+    color: $white;
+    align-self: start;
   }
 }
 </style>
