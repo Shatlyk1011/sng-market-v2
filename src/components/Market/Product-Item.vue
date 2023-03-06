@@ -13,7 +13,7 @@
         </span>
       </div>
       <div class="product__rating">
-        <FiveStars :average="average" />
+        <FiveStars :average="average" @click="handleModal" />
         <span :title="`Оставлено ${totalLength} оценок`"
           >{{ totalLength }} оценок</span
         >

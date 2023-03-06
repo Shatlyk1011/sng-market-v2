@@ -1,6 +1,6 @@
 <template>
   <div class="comment">
-    <div class="comment__likes" ref="commentLikes">
+    <div class="comment__likes colorRed" ref="commentLikes">
       <ion-icon
         @click="handleLike(comment.likes, comment.likedUsers)"
         class="comment__icon"
@@ -224,11 +224,11 @@ $SSP: "Source Sans Pro", sans-serif;
     }
   }
 
-  &__likse.colorRed {
+  /*   &__likes.colorRed {
     .comment__icon {
       color: red;
     }
-  }
+  } */
 
   &__container {
     display: flex;

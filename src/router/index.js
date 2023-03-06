@@ -2,11 +2,15 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Signup from "@/views/auth/Signup.vue";
 import Signin from "@/views/auth/Signin.vue";
-const MarketView = () => import("@/views/MarketView.vue");
+// const MarketView = () => import("@/views/MarketView.vue");
+import MarketView from "@/views/MarketView.vue";
 import ProductView from "@/views/ProductView.vue";
 import CreateProductView from "@/views/CreateProductView.vue";
-const MyProducts = () => import("@/views/MyProductsView.vue");
-const ChangeProductView = () => import("@/views/ChangeProductView.vue");
+// const MyProducts = () => import("@/views/MyProductsView.vue");
+import MyProductsView from "@/views/MyProductsView.vue";
+// const ChangeProductView = () => import("@/views/ChangeProductView.vue");
+import ChangeProductView from "@/views/ChangeProductView.vue";
+import NotFound from "@/views/NotFound.vue";
 
 import { projectAuth } from "@/firebase/config";
 
@@ -43,7 +47,7 @@ const routes = [
   {
     path: "/my-products",
     name: "MyProductsView",
-    component: MyProducts,
+    component: MyProductsView,
     beforeEnter: requireAuth,
   },
   {
@@ -64,6 +68,11 @@ const routes = [
     name: "CreateProductView",
     component: CreateProductView,
     beforeEnter: requireAuth,
+  },
+  {
+    path: "/:catch(.*)",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 

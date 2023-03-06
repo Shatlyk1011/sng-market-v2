@@ -52,7 +52,7 @@ import LoadingPage from "@/components/shared/LoadingPage.vue";
 
 import getCollection from "@/composables/getCollection";
 
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 export default {
   name: "Market",

@@ -14,7 +14,7 @@
               class="btn active-btn"
               >Изменить</router-link
             >
-            <div v-if="owner" class="btn active-btn" @click="handleDelete">
+            <div v-if="owner" class="btn active-btn" @click="toggleModal">
               Удалить
             </div>
           </div>
@@ -52,16 +52,21 @@
         />
       </div>
     </div>
-    <div v-else>Loading...</div>
     <div v-if="error" class="error">{{ error }}</div>
   </div>
+  <AUSModal
+    v-if="modal"
+    @handleClose="toggleModal"
+    @handleDelete="handleDelete(productId)"
+  />
 </template>
 
 <script>
 import FiveStars from "@/components/shared/Five-stars.vue";
 import Availability from "@/components/shared/Availability.vue";
+import AUSModal from "@/components/shared/AUSModal.vue";
 
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 import useDocument from "@/composables/useDocument";
 import getUser from "@/composables/getUser";
@@ -70,11 +75,16 @@ import getAverageStars from "@/composables/getAverageStars";
 import router from "@/router";
 export default {
   name: "SingleProduct",
-  components: { FiveStars, Availability },
+  components: { FiveStars, Availability, AUSModal },
   props: ["error", "product"],
 
   setup(props) {
     const productId = router.currentRoute.value.params.id;
+    const modal = ref(false);
+
+    const toggleModal = () => {
+      modal.value = !modal.value;
+    };
 
     const { average, length: totalLength } = getAverageStars(
       props.product.stars
@@ -96,7 +106,15 @@ export default {
       );
     });
 
-    return { productId, handleDelete, owner, average, totalLength };
+    return {
+      productId,
+      handleDelete,
+      owner,
+      average,
+      totalLength,
+      modal,
+      toggleModal,
+    };
   },
 };
 </script>
